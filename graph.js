@@ -50,7 +50,7 @@ function getGraph(data_x, data_y, fit_x, fit_y, where , mode1 ,mode2 ,color1,col
     Plotly.newPlot(Graph, data, layout,config);
     Plotly.relayout(where, 'title',`y = ${m}x + (${b})`);
 }
-
+//저 여기 수정했어요 ~~~~
 //영역 선택할 수 있는 그래프 그리기
 function getGraph_select_range(data_x, data_y, where , mode , color){
     var Graph = document.getElementById(where);
