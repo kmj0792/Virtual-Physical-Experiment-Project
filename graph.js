@@ -40,6 +40,7 @@ function getGraph(data_x, data_y, fit_x, fit_y, where , mode1 ,mode2 ,color1,col
     var data = [trace1, trace2];
     var layout = {
         title: 'Least Squares',
+        font:{size:10},
         showlegend: false
     };
     var config={

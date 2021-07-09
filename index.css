@@ -1,5 +1,17 @@
 .set{
     width : 300px;
-    height : 300px;
-    border : solid 2px;
+    height : 110px;
+    border : solid 1px;
+    text-align: center;
+    margin-top:10px;
+    margin-left:180px;
+    padding-top:15px;
+}
+
+#myGraph{
+    float: left;
+    margin-right: 100px;
+}
+#myfitting{
+    float: left;
 }
