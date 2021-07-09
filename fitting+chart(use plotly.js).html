@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <meta charset="utf-8">
+    <head>
+        <title>그래프</title>
+        <link href="index.css" rel="stylesheet"  type="text/css"/>
+    </head>
+    <body>
+    <!--제이쿼리 적용방법 2 : cdn -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--제이쿼리 적용방법 3 -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <!--plotly.js cdn 적용-->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="./graph.js"></script>
+
+    <!--<button onclick="">그래프 가져오기</button>-->
+    
+    <div class="set">
+        <button  onclick="fit('red', 'gray');" >피팅하기</button> 
+        <button onclick="reset()">리셋하기</button><br><br>
+        x : <input type="text" name="input_x" id="input_x" size="10">
+        <button onclick="input()">좌표 지우기</button><br>
+
+        y : <input type="text" name="input_y" id="input_y" size="10">
+        <button onclick="getGraph_select_range(delchartLabels, delchartData ,'myGraph','lines+markers','blue');">새 그래프 보기</button><br>
+    </div>  
+    
+
+    <div id="myGraph" style="width: 600px; height: 400px; margin-top: 30px;margin-left: 30px; cursor: crosshair;"></div>
+    <script>getGraph_select_range(chartLabels, chartData ,'myGraph','lines+markers','black');</script>
+    <div id="myfitting" style="width: 600px; height: 400px; margin-top: 30px;margin-left: 30px; cursor: crosshair;"></div>
+   
+    
+    
+
+
+    
+    
+    
+
+</body>
+</html>
