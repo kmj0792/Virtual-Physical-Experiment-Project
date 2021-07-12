@@ -146,6 +146,9 @@ function fit(fit_color, range_color){ //select color
         while(chartLabels[i_x_max] <= xRange[1]){
             i_x_max++;
         }
+        min_value=i_x_min;
+        max_value=i_x_max;
+        /*
         while(chartData[i_y_min] <= yRange[0]){
             i_y_min++;
         }
@@ -165,7 +168,7 @@ function fit(fit_color, range_color){ //select color
         }else{
             min_value=i_y_min;
         }
-
+*/
         chartLabels_zoom = chartLabels.slice(min_value, max_value);
         chartData_zoom = chartData.slice(min_value, max_value);
 

@@ -4,13 +4,13 @@
     border : solid 1px;
     text-align: center;
     margin-top:10px;
-    margin-left:180px;
+    margin-left:520px;
     padding-top:15px;
 }
 
 #myGraph{
     float: left;
-    margin-right: 100px;
+    margin-right: 20px;
 }
 #myfitting{
     float: left;
