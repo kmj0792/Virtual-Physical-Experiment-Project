@@ -337,11 +337,3 @@ function remove(){
 function reset(){
     window.location.reload();
 }
-/*
-marketing
-current
-Term anounce
-due marketing
-major
-majority 
-*/
