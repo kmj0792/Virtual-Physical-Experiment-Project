@@ -12,6 +12,7 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <!--plotly.js cdn 적용-->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.js"></script>
     <script src="./graph.js"></script>
 
     <!--<button onclick="">그래프 가져오기</button>-->
@@ -23,21 +24,12 @@
         <button onclick="input()">&nbsp; 좌표 지우기 &nbsp;</button><br>
 
         y : <input type="text" name="input_y" id="input_y" size="10">
-        <button onclick="getGraph_select_range(delchartLabels, delchartData ,'myGraph','lines+markers','blue');">새 그래프 보기</button><br>
+        <button onclick="getGraph_select_range_1(delchartLabels, delchartData ,'myGraph','lines+markers','blue');">새 그래프 보기</button><br>
     </div>  
     
     
     <div id="myGraph" style="width: 600px; height: 400px; margin-top: 30px;margin-left: 30px; cursor: crosshair;"></div>
     <script>getGraph_select_range(chartLabels, chartData ,'myGraph','lines+markers','black');</script>
     <div id="myfitting" style="width: 600px; height: 400px; margin-top: 30px;margin-left: 30px; cursor: crosshair;"></div>
-   
-    
-    
-
-
-    
-    
-    
-
-</body>
+    </body>
 </html>
