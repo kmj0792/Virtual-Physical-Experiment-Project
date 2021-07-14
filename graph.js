@@ -7,8 +7,6 @@ var max_value; //피팅할 부분의 최대 인덱스값
 var min_value; //피팅할 부분의 최소 인덱스값
 var chartLabels_zoom=[]; //피팅할 범위 x
 var chartData_zoom = []; //피팅할 범위 y
-//var delchartLabels = []; //예시 x값 
-//var delchartData =[];
 var a; // 함수의 계수 a
 var b; // 함수의 계수 b
 var c; // 함수의 계수 c
@@ -24,9 +22,19 @@ var temp=[]; //좌표 제거할때 사용
 var inverted;//역행렬
 var Coe;//(A_t A)'(A_t)까지 한 것
 var abc; //이차 방정식 계수 행렬 abc[0]=c
+var type_index;
+var type;
+var find_type = function(select_obj){
+    type_index=select_obj.selectedIndex;
+    type=select_obj.options[type_index].value;
+}
+document.getElementById("selectBox")[document.getElementById("selectBox").selectedIndex].value; // 옵션 value 값 </script>
+
+
+
 
 //다중 그래프 그리기 
-function getGraph(data_x, data_y, fit_x, fit_y, where , mode1 ,mode2 ,color1,color2){
+function getGraph(data_x, data_y, fit_x, fit_y, where , mode1 ,mode2 ,color1,color2, type){
     var Graph=document.getElementById(where);
     var trace1 = {
             x: data_x,
@@ -59,8 +67,12 @@ function getGraph(data_x, data_y, fit_x, fit_y, where , mode1 ,mode2 ,color1,col
         modeBarButtonsToRemove: ['lasso2d','autoScale2d','toggleSpikelines','select2d']
     };
     Plotly.newPlot(Graph, data, layout,config);
-    
-    Plotly.relayout(where, 'title',`y = ${a}x + (${b})`);
+    if (type==1){
+        Plotly.relayout(where, 'title',`y = ${a}x + (${b})`);
+    }else if (type==2){
+        Plotly.relayout(where, 'title',`y = ${a}x^2 + ${b}x + ${c}`);
+    }
+   
 }
 
 //영역 선택할 수 있는 그래프 그리기
@@ -183,11 +195,12 @@ function tarrXarr(tarr, arr){
 
 //선형최소 제곱 알고리즘 2차 - 미완
 
+    
+
+function findLineByLeastSquares_2(values_x,values_y){
     metrix(); //arr 리턴
     zip=rows=>rows[0].map((_,c)=>rows.map(row=>row[c]))
     t_arr= zip([...arr]) //전치된 행렬 t_arr
-
-function findLineByLeastSquares_2(){
     //역행렬 구하기 
     inverted = math.inv(tarrXarr(t_arr, arr));
     Coe=tarrXarr(inverted, t_arr);
@@ -199,8 +212,8 @@ function findLineByLeastSquares_2(){
     var result_values_x = [];
     var result_values_y = []; 
 
-    for (let i = 0; i <chartLabels_zoom.length; i ++) { 
-            x = chartLabels_zoom [i]; 
+    for (let i = 0; i <values_x.length; i ++) { 
+            x = values_x[i]; 
             y = x * x * a + b*x + c; 
             result_values_x.push (x); 
             result_values_y.push (y); 
@@ -250,10 +263,14 @@ function fit(fit_color, range_color){ //select color
         chartLabels_zoom = chartLabels.slice(min_value, max_value);
         chartData_zoom = chartData.slice(min_value, max_value);
 
-        //var fit_xy = findLineByLeastSquares_1(chartLabels_zoom, chartData_zoom); //선형제곱 피팅
-        var fit_xy = findLineByLeastSquares_2(); //선형제곱 피팅
+        if(type==1){
+            var fit_xy = findLineByLeastSquares_1(chartLabels_zoom, chartData_zoom); //선형제곱 피팅
+        } else if(type==2){
+            var fit_xy = findLineByLeastSquares_2(chartLabels_zoom, chartData_zoom); //선형제곱 피팅
+        }
+       
 
-        getGraph(chartLabels_zoom,chartData_zoom,fit_xy[0], fit_xy[1],'myfitting','lines+markers', 'lines' , range_color,fit_color); 
+        getGraph(chartLabels_zoom,chartData_zoom,fit_xy[0], fit_xy[1],'myfitting','lines+markers', 'lines' , range_color,fit_color, type); 
 }
 
 function input(){
