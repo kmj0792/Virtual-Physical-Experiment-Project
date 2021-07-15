@@ -1,6 +1,45 @@
 
-var chartLabels = [-2, -1, 0, 1,2,3,4]; //예시 x값 
-var chartData = [3,2,3,2,4,4,5]; //예시 y값
+
+var chartLabels = [0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,
+    0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,
+    1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,
+    2.55,2.6,2.65,2.7,2.75,2.8,2.85,2.9,2.95,3,3.05,3.1,3.15,3.2,3.25,3.3,3.35,3.4,
+    3.45,3.5,3.55,3.6,3.65,3.7,3.75,3.8,3.85,3.9,3.95,4,4.05,4.1,4.15,4.2,4.25,4.3,
+    4.35,4.4,4.45,4.5,4.55,4.6,4.65,4.7,4.75,4.8,4.85,4.9,4.95,5,5.05,5.1,5.15,5.2,
+    5.25,5.3,5.35,5.4,5.45,5.5,5.55,5.6,5.65,5.7,5.75,5.8,5.85,5.9,5.95,6,6.05,6.1,
+    6.15,6.2,6.25,6.3,6.35,6.4,6.45,6.5,6.55,6.6,6.65,6.7,6.75,6.8,6.85,6.9,6.95,7,
+    7.05,7.1,7.15,7.2,7.25,7.3,7.35,7.4,7.45,7.5,7.55,7.6,7.65,7.7,7.75,7.8,7.85,7.9,
+    7.95,8,8.05,8.1,8.15,8.2,8.25,8.3,8.35,8.4,8.45,8.5,8.55,8.6,8.65,8.7,8.75,8.8,8.85,
+    8.9,8.95,9,9.05,9.1,9.15,9.2,9.25,9.3,9.35,9.4,9.45,9.5,9.55,9.6,9.65,9.7,9.75,9.8,
+    9.85,9.9,9.95,10,10.05,10.1,10.15,10.2,10.25,10.3,10.35,10.4,10.45,10.5,10.55,10.6,
+    10.65,10.7,10.75,10.8,10.85,10.9,10.95,11,11.05,11.1,11.15,11.2,11.25,11.3,11.35,
+    11.4,11.45,11.5,11.55,11.6,11.65,11.7,11.75,11.8,11.85,11.9,11.95,12,12.05,12.1,
+    12.15,12.2,12.25,12.3,12.35,12.4,12.45,12.5,12.55,12.6,12.65,12.7,12.75,12.8,12.85,12.9,12.95,13,13.05,
+    13.1,13.15,13.2,13.25,13.3,13.35,13.4,13.45,13.5,13.55,13.6,13.65,13.7,13.75,13.8,
+    13.85,13.9,13.95,14,14.05,14.1,14.15,14.2,14.25,14.3,14.35,14.4,14.45,14.5,14.55,
+    14.6,14.65,14.7,14.75,14.8,14.85,14.9,14.95,15,15.05,15.1,15.15,15.2,15.25,15.3,15.35,15.4,15.45,15.5,15.55,15.6,
+    15.65,15.7,15.75,15.8,15.85,15.9,15.95,16,16.05,16.1,16.15,16.2,16.25,16.3,16.35,16.4,16.45,16.5,16.55,16.6,16.65,16.7,16.75,16.8,16.85,16.9,16.95,17,17.05,17.1,17.15,17.2,17.25,17.3,17.35,17.4,17.45,17.5
+    ]; //예시 x값 
+var chartData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.001,
+    0, -0.001, 0, 0, 0, 0, 0, 0.001, 0, -0.001, 0.001, 0.001, -0.001, 0, 0.001, -0.001, 0, 0, -0.001, 0.001, 0.001, -0.001,
+    0, 0,
+    -0.001, 0.001, 0, -0.001, 0.001, 0, -0.001, 0.001, 0, -0.001, 0.001, 0, 
+    -0.001, 0.001, 0, 0, 0.001, -0.001, -0.001, 0.001, 0, 0, 0.001, -0.001, 0, 0.001, 
+    -0.001, 0, 0.001, -0.001, 0, 0.001, -0.001, 0, 0.001, -0.001, 0, 0.001, 
+    -0.001, 0, 0.001, -0.001, 0, 0.001, -0.001, 0, 0.001, -0.001, 0, 0.001, -0.001, 0, 0.001, -0.00, 0, 0.001, 0, 0, 0, -0.00, 0, 0.001, -0.00, 
+    0, 0.001, 0, 0, -0.001, 0, 0.001, -0.001, -0.001, 0.001, 0, 0, 0.001, 
+    -0.001, -0.001, 0.001, 0, -0.001, 0.001, 0, 0, 0.001, -0.001, -0.001, 0.001, 0.001, 0, 0, -0.001, -0.001, 0.001, 0.001, 0, 0, -0.001, 0, 0.001, 
+    0, 0, 0, -0.001, 0, 0.001, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.001, -0.001, 0.001, 0.001, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0.002, 0.349, 0.959, 1.216, 1.209, 1.204, 1.197, 0.781, -0.314, -0.975, 
+    -0.943, -0.907, -0.868, -0.842, -0.812, -0.654, -0.273, -0.047, -0.067, -0.055, -0.03, -0.016, -0.004, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0
+    ]; //예시 y값
 var xRange=[]; //드래그된 x범위
 var yRange=[]; //드래그된 y범위
 var max_value; //피팅할 부분의 최대 인덱스값
@@ -11,7 +50,7 @@ var a; // 함수의 계수 a
 var b; // 함수의 계수 b
 var c; // 함수의 계수 c
 var x_matrix =[[],[]];
-var arr = new Array(chartLabels.length);//x좌표를 행렬로 받아올 변수 
+var arr = new Array(chartLabels_zoom.length);//x좌표를 행렬로 받아올 변수 
 var t_arr = new Array(3);//전치행렬
 //var transpose_metrix;
 var arr_y=new Array(1); //y좌표를 행렬로 받아올 변수 
@@ -22,15 +61,12 @@ var temp=[]; //좌표 제거할때 사용
 var inverted;//역행렬
 var Coe;//(A_t A)'(A_t)까지 한 것
 var abc; //이차 방정식 계수 행렬 abc[0]=c
-var type_index;
 var type;
-var find_type = function(select_obj){
-    type_index=select_obj.selectedIndex;
-    type=select_obj.options[type_index].value;
+
+function change_Type(e){
+    const value = e.value;
+    type=value;
 }
-document.getElementById("selectBox")[document.getElementById("selectBox").selectedIndex].value; // 옵션 value 값 </script>
-
-
 
 
 //다중 그래프 그리기 
@@ -68,11 +104,10 @@ function getGraph(data_x, data_y, fit_x, fit_y, where , mode1 ,mode2 ,color1,col
     };
     Plotly.newPlot(Graph, data, layout,config);
     if (type==1){
-        Plotly.relayout(where, 'title',`y = ${a}x + (${b})`);
+        Plotly.relayout(where, 'title',`y = ${a}x + ${b}`);
     }else if (type==2){
         Plotly.relayout(where, 'title',`y = ${a}x^2 + ${b}x + ${c}`);
     }
-   
 }
 
 //영역 선택할 수 있는 그래프 그리기
@@ -167,17 +202,17 @@ function metrix(){
     }
 
     for(var j=0; j<t_arr.length; j++){
-        t_arr[j]=new Array(15);
+        t_arr[j]=new Array(chartLabels_zoom.length);
     }
 
-    for(var i=0; i<chartData.length; i++){
+    for(var i=0; i<chartData_zoom.length; i++){
         //arr_y[i]=new Array(chart_y.length);
-        y=chartData[i];
+        y=chartData_zoom[i];
         arr_y[i]=[y];
     }
 
-    for(var i=0; i<chartLabels.length;i++){
-        x = chartLabels[i]; 
+    for(var i=0; i<chartLabels_zoom.length;i++){
+        x = chartLabels_zoom[i]; 
         xx=x*x;
         arr[i]=[1,x,xx];           
     }
@@ -193,11 +228,10 @@ function tarrXarr(tarr, arr){
 }
 //console.log(transpose(arr));
 
-//선형최소 제곱 알고리즘 2차 - 미완
 
-    
-
+//선형최소 제곱 알고리즘 2차 
 function findLineByLeastSquares_2(values_x,values_y){
+    var x,y;
     metrix(); //arr 리턴
     zip=rows=>rows[0].map((_,c)=>rows.map(row=>row[c]))
     t_arr= zip([...arr]) //전치된 행렬 t_arr
@@ -208,6 +242,14 @@ function findLineByLeastSquares_2(values_x,values_y){
     a=abc[2][0];
     b=abc[1][0];
     c=abc[0][0];
+
+    if (values_x.length != values_y.length) { 
+        throw new Error ( 'values_x 및 values_y 매개 변수의 크기가 같아야합니다!'); 
+    } 
+
+    if (values_x.length === 0) { 
+        return [[], []]; 
+    } 
 
     var result_values_x = [];
     var result_values_y = []; 
@@ -263,12 +305,15 @@ function fit(fit_color, range_color){ //select color
         chartLabels_zoom = chartLabels.slice(min_value, max_value);
         chartData_zoom = chartData.slice(min_value, max_value);
 
+        var fit_xy;
         if(type==1){
-            var fit_xy = findLineByLeastSquares_1(chartLabels_zoom, chartData_zoom); //선형제곱 피팅
+            fit_xy = findLineByLeastSquares_1(chartLabels_zoom, chartData_zoom); //선형제곱 피팅
         } else if(type==2){
-            var fit_xy = findLineByLeastSquares_2(chartLabels_zoom, chartData_zoom); //선형제곱 피팅
-        }
-       
+            fit_xy = findLineByLeastSquares_2(chartLabels_zoom, chartData_zoom); //선형제곱 피팅
+        } else if(type==0)
+       {
+        alert('옵션을 선택해 주세요');
+       }
 
         getGraph(chartLabels_zoom,chartData_zoom,fit_xy[0], fit_xy[1],'myfitting','lines+markers', 'lines' , range_color,fit_color, type); 
 }

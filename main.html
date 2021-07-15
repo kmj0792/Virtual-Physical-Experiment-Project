@@ -15,13 +15,15 @@
     <script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.js"></script>
     <script src="./graph.js"></script>
 
-    <!--<button onclick="">그래프 가져오기</button>-->
-    
+    <!--<button onclick="">그래프 가져오기
+        onchange="find_type(this)"
+    </button>-->
+ 
     <div class="set">
         <form action ="degree">
             함수 종류
-            <select name="degree" id="selectBox" onchange="find_type(this)" >
-                <option value="0">|---선택하세요---|</option>
+            <select  id="selectBox" name="degree" onchange="change_Type(this)" >
+                <option value="0" selected>|---선택하세요---|</option>
                 <option value="1">선형</option>
                 <option value="2">곡선형</option>
                 <option value="3">sin</option>
