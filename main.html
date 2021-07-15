@@ -23,14 +23,14 @@
         <form action ="degree">
             함수 종류
             <select  id="selectBox" name="degree" onchange="change_Type(this)" >
-                <option value="0" selected>|---선택하세요---|</option>
+                <option value="0" selected>-----선택-----</option>
                 <option value="1">선형</option>
                 <option value="2">곡선형</option>
                 <option value="3">sin</option>
                 <option value="4">cos</option>
             </select>
         </form>
-        <button  onclick="fit('red', 'gray');" >피팅하기</button> 
+        <button  onclick="fit('red', 'black');" >피팅하기</button> 
         <button onclick="reset()">리셋하기</button><br><br>
         x : <input type="text" name="input_x" id="input_x" size="10">
         <button onclick="input()">&nbsp; 좌표 지우기 &nbsp;</button><br>

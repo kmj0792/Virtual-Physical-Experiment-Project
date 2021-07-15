@@ -1,5 +1,4 @@
-
-
+//좌표값 배열 선언
 var chartLabels = [0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,
     0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,
     1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,
@@ -19,7 +18,7 @@ var chartLabels = [0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.
     13.85,13.9,13.95,14,14.05,14.1,14.15,14.2,14.25,14.3,14.35,14.4,14.45,14.5,14.55,
     14.6,14.65,14.7,14.75,14.8,14.85,14.9,14.95,15,15.05,15.1,15.15,15.2,15.25,15.3,15.35,15.4,15.45,15.5,15.55,15.6,
     15.65,15.7,15.75,15.8,15.85,15.9,15.95,16,16.05,16.1,16.15,16.2,16.25,16.3,16.35,16.4,16.45,16.5,16.55,16.6,16.65,16.7,16.75,16.8,16.85,16.9,16.95,17,17.05,17.1,17.15,17.2,17.25,17.3,17.35,17.4,17.45,17.5
-    ]; //예시 x값 
+    ]; //예시 x좌표값
 var chartData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -39,7 +38,8 @@ var chartData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0
-    ]; //예시 y값
+    ]; //예시 y좌표값
+
 var xRange=[]; //드래그된 x범위
 var yRange=[]; //드래그된 y범위
 var max_value; //피팅할 부분의 최대 인덱스값
@@ -49,19 +49,19 @@ var chartData_zoom = []; //피팅할 범위 y
 var a; // 함수의 계수 a
 var b; // 함수의 계수 b
 var c; // 함수의 계수 c
-var x_matrix =[[],[]];
-var arr = new Array(chartLabels_zoom.length);//x좌표를 행렬로 받아올 변수 
-var t_arr = new Array(3);//전치행렬
-//var transpose_metrix;
+var a10; // 함수의 계수 a의 반올림한 값
+var b10; // 함수의 계수 b의 반올림한 값
+var c10; // 함수의 계수 c의 반올림한 값
+
+var arr;//x좌표를 행렬로 받아올 변수 
+var t_arr;//전치행렬
 var arr_y=new Array(1); //y좌표를 행렬로 받아올 변수 
-//getGraph_select_range(chartLabels, chartData ,'myGraph','lines+markers','black'); //기본 그래프
-//find_range(xRange,yRange);
-//getGraph_select_range(chartLabels, chartData ,'range','lines+markers','black');
+
 var temp=[]; //좌표 제거할때 사용 
 var inverted;//역행렬
 var Coe;//(A_t A)'(A_t)까지 한 것
 var abc; //이차 방정식 계수 행렬 abc[0]=c
-var type;
+var type; //옵션 선택 값 받아옴
 
 function change_Type(e){
     const value = e.value;
@@ -104,9 +104,11 @@ function getGraph(data_x, data_y, fit_x, fit_y, where , mode1 ,mode2 ,color1,col
     };
     Plotly.newPlot(Graph, data, layout,config);
     if (type==1){
-        Plotly.relayout(where, 'title',`y = ${a}x + ${b}`);
+        
+        Plotly.relayout(where, 'title',`y = ${a10}x + ${b10}`);
     }else if (type==2){
-        Plotly.relayout(where, 'title',`y = ${a}x^2 + ${b}x + ${c}`);
+     
+        Plotly.relayout(where, 'title',`y = ${a10}x^2 + ${b10}x + ${c10}`);
     }
 }
 
@@ -176,7 +178,7 @@ function findLineByLeastSquares_1 (values_x, values_y) {
 
     a = (count * xy_sum-x_sum * y_sum) / (count * xx_sum-x_sum * x_sum); 
     b = (y_sum / count)-(a * x_sum) / count; 
-
+ 
     var result_values_x = [];
     var result_values_y = []; 
 
@@ -186,6 +188,8 @@ function findLineByLeastSquares_1 (values_x, values_y) {
             result_values_x.push (x); 
             result_values_y.push (y); 
     } 
+    a10=a.toFixed(10);
+    b10=b.toFixed(10);
     //document.getElementById('output').innerHTML="y = " +m+"x + "+"("+b+")"
     return [result_values_x, result_values_y]; 
 }
@@ -197,6 +201,7 @@ function metrix(){
     var x;
     var xx;
     var y;
+    
     for (var i = 0; i < arr.length; i++) {
         arr[i] = new Array(3); 
     }
@@ -226,8 +231,6 @@ function metrix(){
 function tarrXarr(tarr, arr){
     return tarr.map((row) => arr[0].map((x,y) => row.reduce((a,b,c) => a + b * arr[c][y], 0)))
 }
-//console.log(transpose(arr));
-
 
 //선형최소 제곱 알고리즘 2차 
 function findLineByLeastSquares_2(values_x,values_y){
@@ -260,7 +263,10 @@ function findLineByLeastSquares_2(values_x,values_y){
             result_values_x.push (x); 
             result_values_y.push (y); 
     } 
-    //document.getElementById('output').innerHTML="y = " +m+"x + "+"("+b+")"
+    a10=a.toFixed(10);
+    b10=b.toFixed(10);
+    c10=c.toFixed(10);
+       
     return [result_values_x, result_values_y]; 
   
 }
@@ -304,6 +310,10 @@ function fit(fit_color, range_color){ //select color
 */
         chartLabels_zoom = chartLabels.slice(min_value, max_value);
         chartData_zoom = chartData.slice(min_value, max_value);
+        // arr를 배열로 만들어주는 위치가 중요함. 
+        //chartLabels_zoom이 값을 가진 후에 놓여야함.
+        arr = new Array(chartLabels_zoom.length);//x좌표를 행렬로 받아올 변수 
+        t_arr = new Array(3);//전치행렬
 
         var fit_xy;
         if(type==1){
@@ -327,7 +337,6 @@ function input(){
     
 function remove(){
     var i;
-    var j=0;
     var chartL_max=Math.max.apply(null, chartLabels);
     var chartD_max=Math.max.apply(null, chartData);
     var chartL_min=Math.min.apply(null, chartLabels);
