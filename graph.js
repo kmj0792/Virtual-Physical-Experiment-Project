@@ -61,8 +61,9 @@ var temp=[]; //좌표 제거할때 사용
 var inverted;//역행렬
 var Coe;//(A_t A)'(A_t)까지 한 것
 var abc; //이차 방정식 계수 행렬 abc[0]=c
-var type; //옵션 선택 값 받아옴
+var type=0; //옵션 선택 값 받아옴
 
+// 피팅함수 종류가 뭔지 type을 숫자로 받아오는 함수
 function change_Type(e){
     const value = e.value;
     type=value;
@@ -100,7 +101,8 @@ function getGraph(data_x, data_y, fit_x, fit_y, where , mode1 ,mode2 ,color1,col
     var config={
         displayModeBar: true,
         responsive: true,
-        modeBarButtonsToRemove: ['lasso2d','autoScale2d','toggleSpikelines','select2d']
+        modeBarButtonsToRemove: ['lasso2d','autoScale2d','toggleSpikelines','select2d'],
+        displaylogo:false
     };
     Plotly.newPlot(Graph, data, layout,config);
     if (type==1){
@@ -109,6 +111,10 @@ function getGraph(data_x, data_y, fit_x, fit_y, where , mode1 ,mode2 ,color1,col
     }else if (type==2){
      
         Plotly.relayout(where, 'title',`y = ${a10}x² + ${b10}x + ${c10}`);
+    }else if(type==3){
+        Plotly.relayout(where, 'title',`y = ${a10} sin(x) + ${b10}`);
+    }else if(type==4){
+        Plotly.relayout(where, 'title',`y = ${a10} cos(x) + ${b10}`);
     }
 }
 
@@ -131,7 +137,8 @@ function getGraph_select_range(data_x, data_y, where , mode , color){
     var config={
         displayModeBar: true,
         responsive: true,
-        modeBarButtonsToRemove: ['lasso2d','autoScale2d','toggleSpikelines'] //plotly 기본 버튼 중 제거할 것
+        modeBarButtonsToRemove: ['lasso2d','autoScale2d','toggleSpikelines'], //plotly 기본 버튼 중 제거할 것
+        displaylogo:false
     };
     Plotly.plot(Graph, data, layout, config );
 //Lasso Select , Produced with Plotly
@@ -145,8 +152,97 @@ function getGraph_select_range(data_x, data_y, where , mode , color){
     });          
 }
 
+//행렬만들기 - 행렬 반환
+const metrix=()=>{
+    var x;
+    var xx;
+    var y;
+    
+    for (var i = 0; i < arr.length; i++) {
+        arr[i] = new Array(3); 
+    }
 
-//선형최소 제곱 알고리즘 1차
+    for(var j=0; j<t_arr.length; j++){
+        t_arr[j]=new Array(chartLabels_zoom.length);
+    }
+
+    for(var i=0; i<chartData_zoom.length; i++){
+        y=chartData_zoom[i];
+        arr_y[i]=[y];
+    }
+
+    for(var i=0; i<chartLabels_zoom.length;i++){
+        x = chartLabels_zoom[i]; 
+        xx=x*x;
+        arr[i]=[1,x,xx];           
+    }
+   
+    return arr;
+    
+};
+
+const metrix_sin=()=>{
+    var x;
+    var sin_x;
+    var y;
+    
+    for (var i = 0; i < arr.length; i++) {
+        arr[i] = new Array(2); 
+    }
+
+    for(var j=0; j<t_arr.length; j++){
+        t_arr[j]=new Array(chartLabels_zoom.length);
+    }
+
+    for(var i=0; i<chartData_zoom.length; i++){
+        y=chartData_zoom[i];
+        arr_y[i]=[y];
+    }
+
+    for(var i=0; i<chartLabels_zoom.length;i++){
+        x = chartLabels_zoom[i]; 
+        sin_x=Math.sin(x);
+        arr[i]=[sin_x,1];           
+    }
+   
+    return arr;
+    
+};
+
+const metrix_cos=()=>{
+    var x;
+    var cos_x;
+    var y;
+    
+    for (var i = 0; i < arr.length; i++) {
+        arr[i] = new Array(2); 
+    }
+
+    for(var j=0; j<t_arr.length; j++){
+        t_arr[j]=new Array(chartLabels_zoom.length);
+    }
+
+    for(var i=0; i<chartData_zoom.length; i++){
+        y=chartData_zoom[i];
+        arr_y[i]=[y];
+    }
+
+    for(var i=0; i<chartLabels_zoom.length;i++){
+        x = chartLabels_zoom[i]; 
+        cos_x=Math.cos(x);
+        arr[i]=[cos_x,1];           
+    }
+   
+    return arr;
+    
+};
+
+//행렬 곱 구하기 - 곱한 결과 행렬 반환
+function tarrXarr(tarr, arr){
+    return tarr.map((row) => arr[0].map((x,y) => row.reduce((a,b,c) => a + b * arr[c][y], 0)))
+}
+
+//선형최소제곱 알고리즘 1차
 const findLineByLeastSquares_1 = (values_x, values_y)=> { 
     var x_sum = 0; 
     var y_sum = 0; 
@@ -194,43 +290,7 @@ const findLineByLeastSquares_1 = (values_x, values_y)=> {
     return [result_values_x, result_values_y]; 
 };
 
-
-//행렬만들기 - 행렬 반환
-const metrix=()=>{
-    var x;
-    var xx;
-    var y;
-    
-    for (var i = 0; i < arr.length; i++) {
-        arr[i] = new Array(3); 
-    }
-
-    for(var j=0; j<t_arr.length; j++){
-        t_arr[j]=new Array(chartLabels_zoom.length);
-    }
-
-    for(var i=0; i<chartData_zoom.length; i++){
-        y=chartData_zoom[i];
-        arr_y[i]=[y];
-    }
-
-    for(var i=0; i<chartLabels_zoom.length;i++){
-        x = chartLabels_zoom[i]; 
-        xx=x*x;
-        arr[i]=[1,x,xx];           
-    }
-   
-    return arr;
-    
-};
-
-
-//행렬 곱 구하기 - 곱한 결과 행렬 반환
-function tarrXarr(tarr, arr){
-    return tarr.map((row) => arr[0].map((x,y) => row.reduce((a,b,c) => a + b * arr[c][y], 0)))
-}
-
-//선형최소 제곱 알고리즘 2차 
+//선형최소제곱 알고리즘 2차 
 const findLineByLeastSquares_2=(values_x,values_y)=>{
     var x,y;
     metrix(); //arr 리턴
@@ -267,6 +327,80 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
     return [result_values_x, result_values_y]; 
   
 };
+
+//선형최소제곱 알고리즘 _sin
+//삼각함수 f(x) = p1*sin(x) + p2로 근사
+function findLineByLeastSquares_sin(values_x,values_y){
+    var x,y;
+    metrix_sin();
+    zip=rows=>rows[0].map((_,c)=>rows.map(row=>row[c]))
+    t_arr= zip([...arr]) //전치된 행렬 t_arr
+    inverted = math.inv(tarrXarr(t_arr, arr)); //역행렬 구하기 
+    Coe=tarrXarr(inverted, t_arr);
+    abc=tarrXarr(Coe, arr_y); //이차함수 계수 행렬 abc
+    a=abc[0][0];
+    b=abc[1][0];
+    
+    if (values_x.length != values_y.length) { 
+        throw new Error ( 'values_x 및 values_y 매개 변수의 크기가 같아야합니다!'); 
+    } 
+
+    if (values_x.length === 0) { 
+        return [[], []]; 
+    } 
+
+    var result_values_x = [];
+    var result_values_y = []; 
+
+    for (let i = 0; i <values_x.length; i ++) { 
+            x = values_x[i]; 
+            y = a*(Math.sin(x))+ b; 
+            result_values_x.push (x); 
+            result_values_y.push (y); 
+    } 
+    a10=a.toFixed(10);
+    b10=b.toFixed(10);
+   
+       
+    return [result_values_x, result_values_y]; 
+}
+
+//선형최소제곱 알고리즘 _cos
+//삼각함수 f(x) = p1*cos(x) + p2로 근사
+function findLineByLeastSquares_cos(values_x,values_y){
+    var x,y;
+    metrix_cos();
+    zip=rows=>rows[0].map((_,c)=>rows.map(row=>row[c]))
+    t_arr= zip([...arr]) //전치된 행렬 t_arr
+    inverted = math.inv(tarrXarr(t_arr, arr)); //역행렬 구하기 
+    Coe=tarrXarr(inverted, t_arr);
+    abc=tarrXarr(Coe, arr_y); //이차함수 계수 행렬 abc
+    a=abc[0][0];
+    b=abc[1][0];
+    
+    if (values_x.length != values_y.length) { 
+        throw new Error ( 'values_x 및 values_y 매개 변수의 크기가 같아야합니다!'); 
+    } 
+
+    if (values_x.length === 0) { 
+        return [[], []]; 
+    } 
+
+    var result_values_x = [];
+    var result_values_y = []; 
+
+    for (let i = 0; i <values_x.length; i ++) { 
+            x = values_x[i]; 
+            y = a*(Math.cos(x))+ b; 
+            result_values_x.push (x); 
+            result_values_y.push (y); 
+    } 
+    a10=a.toFixed(10);
+    b10=b.toFixed(10);
+   
+       
+    return [result_values_x, result_values_y]; 
+}
 
 //fitting그래프 띄우기 - 추후 보완
 function fit(fit_color, range_color){ //select color
@@ -310,14 +444,21 @@ function fit(fit_color, range_color){ //select color
         // arr를 배열로 만들어주는 위치가 중요함. 
         //chartLabels_zoom이 값을 가진 후에 놓여야함.
         arr = new Array(chartLabels_zoom.length);//x좌표를 행렬로 받아올 변수 
-        t_arr = new Array(3);//전치행렬
+       // t_arr = new Array(3);//전치행렬
 
         var fit_xy;
         if(type==1){
-            fit_xy = findLineByLeastSquares_1(chartLabels_zoom, chartData_zoom); //선형제곱 피팅
+            fit_xy = findLineByLeastSquares_1(chartLabels_zoom, chartData_zoom); //선형제곱 1차 피팅
         } else if(type==2){
-            fit_xy = findLineByLeastSquares_2(chartLabels_zoom, chartData_zoom); //선형제곱 피팅
-        } else if(type==0)
+            t_arr = new Array(3);//전치행렬
+            fit_xy = findLineByLeastSquares_2(chartLabels_zoom, chartData_zoom); //선형제곱 2차 피팅
+        } else if(type==3){
+            t_arr = new Array(2);//전치행렬
+            fit_xy = findLineByLeastSquares_sin(chartLabels_zoom, chartData_zoom); //선형제곱 sin 피팅
+        }else if(type==4){
+            t_arr = new Array(2);//전치행렬
+            fit_xy = findLineByLeastSquares_cos(chartLabels_zoom, chartData_zoom); //선형제곱 sin 피팅
+        }else if(type==0)
        {
         alert('옵션을 선택해 주세요');
        }
@@ -373,6 +514,4 @@ function reset(){
     window.location.reload();
 }
 
-function sincos(){
 
-}
