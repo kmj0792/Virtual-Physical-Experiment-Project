@@ -108,7 +108,7 @@ function getGraph(data_x, data_y, fit_x, fit_y, where , mode1 ,mode2 ,color1,col
         Plotly.relayout(where, 'title',`y = ${a10}x + ${b10}`);
     }else if (type==2){
      
-        Plotly.relayout(where, 'title',`y = ${a10}x^2 + ${b10}x + ${c10}`);
+        Plotly.relayout(where, 'title',`y = ${a10}x² + ${b10}x + ${c10}`);
     }
 }
 
@@ -116,7 +116,7 @@ function getGraph(data_x, data_y, fit_x, fit_y, where , mode1 ,mode2 ,color1,col
 function getGraph_select_range(data_x, data_y, where , mode , color){
     var Graph = document.getElementById(where);
     var d3 = Plotly.d3;
-    var formatter = d3.format('.2f');
+    var formatter = d3.format('.3f');
     var data=[{
         mode: mode,
         x: data_x,
@@ -131,7 +131,7 @@ function getGraph_select_range(data_x, data_y, where , mode , color){
     var config={
         displayModeBar: true,
         responsive: true,
-        modeBarButtonsToRemove: ['lasso2d','autoScale2d','toggleSpikelines']
+        modeBarButtonsToRemove: ['lasso2d','autoScale2d','toggleSpikelines'] //plotly 기본 버튼 중 제거할 것
     };
     Plotly.plot(Graph, data, layout, config );
 //Lasso Select , Produced with Plotly
@@ -147,7 +147,7 @@ function getGraph_select_range(data_x, data_y, where , mode , color){
 
 
 //선형최소 제곱 알고리즘 1차
-function findLineByLeastSquares_1 (values_x, values_y) { 
+const findLineByLeastSquares_1 = (values_x, values_y)=> { 
     var x_sum = 0; 
     var y_sum = 0; 
     var xy_sum = 0; 
@@ -192,12 +192,11 @@ function findLineByLeastSquares_1 (values_x, values_y) {
     b10=b.toFixed(10); 
     //document.getElementById('output').innerHTML="y = " +m+"x + "+"("+b+")"
     return [result_values_x, result_values_y]; 
-}
+};
 
 
 //행렬만들기 - 행렬 반환
-function metrix(){
-    //var arr = new Array(chartLabels.length);
+const metrix=()=>{
     var x;
     var xx;
     var y;
@@ -211,7 +210,6 @@ function metrix(){
     }
 
     for(var i=0; i<chartData_zoom.length; i++){
-        //arr_y[i]=new Array(chart_y.length);
         y=chartData_zoom[i];
         arr_y[i]=[y];
     }
@@ -224,7 +222,7 @@ function metrix(){
    
     return arr;
     
-}
+};
 
 
 //행렬 곱 구하기 - 곱한 결과 행렬 반환
@@ -233,13 +231,12 @@ function tarrXarr(tarr, arr){
 }
 
 //선형최소 제곱 알고리즘 2차 
-function findLineByLeastSquares_2(values_x,values_y){
+const findLineByLeastSquares_2=(values_x,values_y)=>{
     var x,y;
     metrix(); //arr 리턴
     zip=rows=>rows[0].map((_,c)=>rows.map(row=>row[c]))
     t_arr= zip([...arr]) //전치된 행렬 t_arr
-    //역행렬 구하기 
-    inverted = math.inv(tarrXarr(t_arr, arr));
+    inverted = math.inv(tarrXarr(t_arr, arr)); //역행렬 구하기 
     Coe=tarrXarr(inverted, t_arr);
     abc=tarrXarr(Coe, arr_y); //이차함수 계수 행렬 abc
     a=abc[2][0];
@@ -269,7 +266,7 @@ function findLineByLeastSquares_2(values_x,values_y){
        
     return [result_values_x, result_values_y]; 
   
-}
+};
 
 //fitting그래프 띄우기 - 추후 보완
 function fit(fit_color, range_color){ //select color
@@ -328,13 +325,16 @@ function fit(fit_color, range_color){ //select color
         getGraph(chartLabels_zoom,chartData_zoom,fit_xy[0], fit_xy[1],'myfitting','lines+markers', 'lines' , range_color,fit_color, type); 
 }
 
+/*
 function input(){
     var input_x = document.getElementById("input_x").value;
     var input_y = document.getElementById("input_y").value;
     temp = [input_x,input_y];
     remove();
 }
-    
+*/
+/*
+//여기서 문제 발생 : x좌표가 다르고 y좌표가 같으면 
 function remove(){
     var i;
     var chartL_max=Math.max.apply(null, chartLabels);
@@ -356,20 +356,23 @@ function remove(){
             else if((chartLabels[i]!=temp[0])&&(chartData[i]==temp[1])){
                 alert('좌표를 다시 입력하시오');
                 break;
-                //alert('좌표를 다시 입력하시오');
-                //location.href="fitting+chart(use plotly.js).html"
             }
             else if((chartLabels[i]==temp[0])&&(chartData[i]!=temp[1])){
                 alert('좌표를 다시 입력하시오');
                 break;
-            }       
-        } else{
+            }else{
                 alert('좌표를 다시 입력하시오');
                 break;
             }
     }
 }
+}
+*/
 
 function reset(){
     window.location.reload();
+}
+
+function sincos(){
+
 }
