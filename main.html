@@ -22,18 +22,20 @@
                 <option value="4">cos</option>
             </select>
         </form>
-        <button  onclick="fit('red', 'black');" >피팅하기</button> 
-        <button onclick="reset()">리셋하기</button><br><br>
-        <!--
-        x : <input type="text" name="input_x" id="input_x" size="10">
-       <button onclick="input()">&nbsp; 좌표 지우기 &nbsp;</button><br>
-
-        y : <input type="text" name="input_y" id="input_y" size="10">
-        -->
-        <button onclick="getGraph_select_range(chartLabels, chartData ,'myGraph','lines+markers','blue');">새 그래프 보기</button><br>
+       
+        <button onclick="getGraph_select_range(chartLabels, chartData);">그래프 보기</button><br>
+        <button  onclick="fit();" >피팅하기</button> 
+        <button onclick="reset()">다시하기</button>
     </div>  
     <div id="myGraph" style="width: 600px; height: 400px; margin-top: 30px;margin-left: 30px; cursor: crosshair;"></div>
-    <script>getGraph_select_range(chartLabels, chartData ,'myGraph','lines+markers','black');</script>
-    <div id="myfitting" style="width: 600px; height: 400px; margin-top: 30px;margin-left: 30px; cursor: crosshair;"></div>
+    <!--<script>getGraph_select_range(chartLabels, chartData );</script>-->
+    
+    <div id="result"style="width: 600px; height: 400px; margin-top: 30px;margin-left: 30px;">
+        <h3>-fitting 범위-</h3>
+        <div id="range" ></div>
+        <h3>-fitting 함수-</h3>
+        <div id="fitting_result"></div>
+    </div>
+
     </body>
 </html>
