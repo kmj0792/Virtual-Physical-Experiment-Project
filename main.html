@@ -3,14 +3,23 @@
     <meta charset="utf-8">
     <head>
         <title>그래프</title>
-        <link href="index.css" rel="stylesheet"  type="text/css"/>
+        <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+      <!-- <link href="index.css" rel="stylesheet"  type="text/css"/>--> 
     </head>
     <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
     <script src="./graph.js"></script>
- 
+    <form>
+        <div>
+        <input type="file" id="directory_upload"  accept=".csv,.xlsx">
+        </div>
+        <div class="file_list">        </div>
+    </form>
+    <script src='upload_csv.js' ></script>
+
     <div class="set">
         <form action ="degree">
             함수 종류
@@ -23,19 +32,24 @@
             </select>
         </form>
        
-        <button onclick="getGraph_select_range(chartLabels, chartData);">그래프 보기</button><br>
+        <button onclick="action_button();">data가져오기</button>
         <button  onclick="fit();" >피팅하기</button> 
         <button onclick="reset()">다시하기</button>
     </div>  
-    <div id="myGraph" style="width: 600px; height: 400px; margin-top: 30px;margin-left: 30px; cursor: crosshair;"></div>
+    <div id="myGraph"style="width: 600px; height: 400px;  cursor: crosshair; float:left;" ></div>
     <!--<script>getGraph_select_range(chartLabels, chartData );</script>-->
     
-    <div id="result"style="width: 600px; height: 400px; margin-top: 30px;margin-left: 30px;">
-        <h3>-fitting 범위-</h3>
-        <div id="range" ></div>
-        <h3>-fitting 함수-</h3>
-        <div id="fitting_result"></div>
+    <div id="result" style=" float:left; margin-left: 30px; margin-top:100px;">
+        <h3>1. fitting 범위</h3>
+        <div id="range" ><br><br></div>
+        <h3>2. fitting 함수</h3>
+        <div id="fitting_result"><br></div>
     </div>
 
     </body>
 </html>
+<!--범위/함수-->
+<!--style="width: 600px; height: 400px; margin-top: 30px;margin-left: 30px;"-->
+
+<!--그래프-->
+<!--style="width: 600px; height: 400px; margin-top: 30px;margin-left: 30px; cursor: crosshair;"-->

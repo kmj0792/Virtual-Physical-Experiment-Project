@@ -1,6 +1,6 @@
 //좌표값 배열 선언
-var chartLabels =[1,2,3,4,5,6,7,8,9,10];
-var chartData =[1,1,1,2,2,3.5,4,7,6,5];
+var chartLabels=[];
+var chartData=[];
 
 var xRange=[]; //드래그된 x범위
 var yRange=[]; //드래그된 y범위
@@ -27,7 +27,16 @@ function change_Type(e){
     type=value;
 }
 
-
+function getdata(){
+    for(var i=0; i<rows.length; i++){
+        chartLabels.push(rows[i]["Time (s)"]);
+        chartData.push(rows[i]["Velocity (m/s)"]);
+        if(chartLabels.length>rows.length){
+            chartLabels.pop();
+            chartData.pop();
+        }
+    }
+}
 //다중 그래프 그리기 
 function getGraph(data_x, data_y, fit_x, fit_y , type){
     var Graph=document.getElementById('myGraph');
@@ -77,9 +86,21 @@ function getGraph(data_x, data_y, fit_x, fit_y , type){
         //Plotly.relayout(where, 'title',`y = ${a10} cos(x) + ${b10}`);
     }
 }
+//수정해야할 부분 : 파일 선택 없이 버튼 눌렀을때 alert이벤트 발생
+function action_button(){
+    getdata();
+    if(chartData.length==0){
+        alert('Data를 선택해주세요.');
+    }else{
+        getGraph_select_range(chartLabels, chartData);
+    }
+}
+
 //document.getElementById('range').innerHTML="x range : "+ "["+ xRange.map(formatter).join(' ~ ')+"]"+ "<br>"+"y range : "+ "["+yRange.map(formatter).join(' ~ ')+"]"
 //영역 선택할 수 있는 그래프 
 function getGraph_select_range(data_x, data_y){
+  
+   
     var Graph = document.getElementById('myGraph');
     var d3 = Plotly.d3;
     var formatter = d3.format('.3f');
@@ -109,8 +130,8 @@ function getGraph_select_range(data_x, data_y){
         Plotly.relayout('myGraph', 'title',
             `x range : [${xRange.map(formatter).join(' ~ ')}]<br>y range: [${yRange.map(formatter).join(' , ')}]`
         );
-    });         
-  
+    }); 
+
 }
 
 //행렬만들기 - 행렬 반환
@@ -474,5 +495,4 @@ function remove(){
 function reset(){
     window.location.reload();
 }
-
 
