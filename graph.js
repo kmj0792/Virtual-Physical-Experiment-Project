@@ -21,16 +21,21 @@ var memo;
 var Coe;//(A_t A)'(A_t)까지 한 것
 var type=0; //옵션 선택 값
 
+
 // 피팅함수 종류가 뭔지 type을 숫자로 받아오는 함수
 function change_Type(e){
     const value = e.value;
     type=value;
 }
 
-function getdata(){
+   
+
+
+function getdata(x,y){
+  
     for(var i=0; i<rows.length; i++){
-        chartLabels.push(rows[i]["Time (s)"]);
-        chartData.push(rows[i]["Velocity (m/s)"]);
+        chartLabels.push(rows[i][x]);
+        chartData.push(rows[i][y]);
         if(chartLabels.length>rows.length){
             chartLabels.pop();
             chartData.pop();
@@ -61,7 +66,7 @@ function getGraph(data_x, data_y, fit_x, fit_y , type){
     };
     var data = [trace1, trace2];
     var layout = {
-        title: 'Least Squares',
+        title: 'Least Squares Fitting Graph',
         font:{size:10},
         showlegend: false
     };
@@ -86,15 +91,16 @@ function getGraph(data_x, data_y, fit_x, fit_y , type){
         //Plotly.relayout(where, 'title',`y = ${a10} cos(x) + ${b10}`);
     }
 }
+
 //수정해야할 부분 : 파일 선택 없이 버튼 눌렀을때 alert이벤트 발생
 function action_button(){
-    getdata();
-    if(chartData.length==0){
-        alert('Data를 선택해주세요.');
-    }else{
-        getGraph_select_range(chartLabels, chartData);
-    }
+    const xname = document.getElementById('directory_xdata').value;
+    const yname = document.getElementById('directory_ydata').value;
+    console.log(xname);
+    getdata(xname, yname);
+    getGraph_select_range(chartLabels, chartData);
 }
+
 
 //document.getElementById('range').innerHTML="x range : "+ "["+ xRange.map(formatter).join(' ~ ')+"]"+ "<br>"+"y range : "+ "["+yRange.map(formatter).join(' ~ ')+"]"
 //영역 선택할 수 있는 그래프 
@@ -111,25 +117,23 @@ function getGraph_select_range(data_x, data_y){
         line:{color:'black'}
     }];
     var layout={
-        title : 'graph',
+        title : 'Graph',
         font:{size:10},
         dragmode: 'select'
     };
     var config={
         displayModeBar: true,
         responsive: true,
-        modeBarButtonsToRemove: ['lasso2d','autoScale2d','toggleSpikelines'], //plotly 기본 버튼 중 제거할 것
+        modeBarButtonsToRemove: ['lasso2d','autoScale2d','toggleSpikelines'], //plotly 기본 버튼 중 제거할 것 (선택하기)
         displaylogo:false
     };
-    Plotly.newPlot(Graph, data, layout, config );
+    Plotly.newPlot(Graph, data, layout, config ,);
 //Lasso Select , Produced with Plotly
     Graph.on('plotly_selected', (eventData) => {
         xRange = eventData.range.x;
         yRange = eventData.range.y;
         document.getElementById('range').innerHTML="x range : "+ "["+ xRange.map(formatter).join(' ~ ')+"]"+ "<br>"+"y range : "+ "["+yRange.map(formatter).join(' ~ ')+"]"
-        Plotly.relayout('myGraph', 'title',
-            `x range : [${xRange.map(formatter).join(' ~ ')}]<br>y range: [${yRange.map(formatter).join(' , ')}]`
-        );
+       // Plotly.relayout('myGraph', 'title','Graph'        );
     }); 
 
 }
