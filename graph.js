@@ -97,6 +97,7 @@ function action_button(){
     const xname = document.getElementById('directory_xdata').value;
     const yname = document.getElementById('directory_ydata').value;
     console.log(xname);
+    console.log(yname);
     getdata(xname, yname);
     getGraph_select_range(chartLabels, chartData);
 }

@@ -27,7 +27,7 @@
 
     <div class="set">
         <form action ="degree">
-            함수 종류
+            fitting 함수 종류
             <select  id="selectBox" name="degree" onchange="change_Type(this)" >
                 <option value="0" selected>-----선택-----</option>
                 <option value="1">선형</option>
@@ -37,8 +37,8 @@
             </select>
         </form>
        
-        <button onclick="action_button();">data가져오기</button>
-        <button  onclick="fit();" >피팅하기</button> 
+        <button onclick="action_button();">get data</button>
+        <button  onclick="fit();" >fitting</button> 
         <button onclick="reset()">다시하기</button>
     </div>  
     <div id="myGraph"style="width: 600px; height: 400px;  cursor: crosshair; float:left;" ></div>
