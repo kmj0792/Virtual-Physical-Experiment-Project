@@ -3,8 +3,19 @@
     <meta charset="utf-8">
     <head>
         <title>그래프</title>
-        <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+        <!-- <link rel="stylesheet" href="https://unpkg.com/mvp.css"> -->
       <!-- <link href="index.css" rel="stylesheet"  type="text/css"/>--> 
+      <link rel="stylesheet" href="assets/web/assets/mobirise-icons2/mobirise2.css">
+      <link rel="stylesheet" href="assets/tether/tether.min.css">
+      <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
+      <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-reboot.min.css">
+      <link rel="stylesheet" href="assets/theme/css/style.css">
+      <link rel="preload" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+      <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap">
+      </noscript>
+      <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css"><link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
     </head>
     <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -12,35 +23,46 @@
     <script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
     <script src="./graph.js"></script>
-    <form>
-        <div>
-        <input type="file" id="directory_upload"  accept=".csv,.xlsx">
-        </div>
-        <div class="file_list">        </div>
-        <div>
-            x 좌표 이름 :  <input type="text" id="directory_xdata">
-            y 좌표 이름 :  <input type="text" id="directory_ydata">
-           
-        </div>
-    </form>
-    <script src='upload_csv.js' ></script>
+    
+ 
 
-    <div class="set">
-        <form action ="degree">
-            fitting 함수 종류
-            <select  id="selectBox" name="degree" onchange="change_Type(this)" >
-                <option value="0" selected>-----선택-----</option>
+    <a class="set">
+        <div class="btn btn-white display-4">
+            <input type="file" id="directory_upload"  accept=".csv,.xlsx" style="display:none"/>
+            <a class="mobi-mbri mobi-mbri-folder mbr-iconfont mbr-iconfont-btn" onclick="onclick=document.all.directory_upload.click()"></a>
+        </div>
+        <a class="file_list"> </a>
+    
+        <script src='upload_csv.js' ></script>
+    </a>
+    <!-- <a class="btn btn-white display-4">
+        <div action ="degree"  class=" mobi-mbri mobi-mbri-bulleted-list mbr-iconfont mbr-iconfont-btn">
+        </div>
+    </a> -->
+    <select  id="selectBox" name="degree" onchange="change_Type(this)" class="btn btn-white display-4">
+                <option value="0" selected >피팅함수선택</option>
                 <option value="1">선형</option>
                 <option value="2">곡선형</option>
                 <option value="3">sin</option>
                 <option value="4">cos</option>
-            </select>
-        </form>
+    </select>
        
-        <button onclick="action_button();">get data</button>
-        <button  onclick="fit();" >fitting</button> 
-        <button onclick="reset()">다시하기</button>
+      
+    <a class="btn btn-white display-4">
+        <div onclick="action_button();"class="mobi-mbri mobi-mbri-edit-2 mbr-iconfont mbr-iconfont-btn"></div>
+    </a>
+    <a class="btn btn-white display-4">
+        <div  onclick="fit();" class="mobi-mbri mobi-mbri-extension mbr-iconfont mbr-iconfont-btn"></div> 
+    </a>
+    <a class="btn btn-white display-4">
+        <div onclick="reset();" class="mobi-mbri mobi-mbri-trash mbr-iconfont mbr-iconfont-btn"></div>
+    </a>
+
+        
+       
     </div>  
+
+    <div id ="ipad">
     <div id="myGraph"style="width: 600px; height: 400px;  cursor: crosshair; float:left;" ></div>
     <!--<script>getGraph_select_range(chartLabels, chartData );</script>-->
     
@@ -50,7 +72,7 @@
         <h3>2. fitting 함수</h3>
         <div id="fitting_result"><br></div>
     </div>
-
+</div>
     </body>
 </html>
 <!--범위/함수-->
