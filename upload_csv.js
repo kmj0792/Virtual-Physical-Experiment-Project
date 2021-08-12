@@ -1,9 +1,9 @@
-const input = document.querySelector('input');
-const preview = document.querySelector('.file_list');
+const input = document.querySelector('#file');
 
 
 input.addEventListener('change', readExcel);
 input.addEventListener('click', reset_rows);
+
 function reset_rows(){
     arrObj.rows=[];
     arrObj.yData=[];

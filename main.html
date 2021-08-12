@@ -27,11 +27,19 @@
  
 
     <a class="set">
-        <div class="btn btn-white display-4">
+        <!-- <div class="btn btn-white display-4" onclick="onclick=document.all.directory_upload.click()">
             <input type="file" id="directory_upload"  accept=".csv,.xlsx" style="display:none"/>
-            <a class="mobi-mbri mobi-mbri-folder mbr-iconfont mbr-iconfont-btn" onclick="onclick=document.all.directory_upload.click()"></a>
-        </div>
-        <a class="file_list"> </a>
+            <a class="mobi-mbri mobi-mbri-folder mbr-iconfont mbr-iconfont-btn"></a>
+            <a class="file_list"> </a>
+        </div> -->
+        <form class="btn btn-white display-4" method="post" enctype="multipart/form-data">
+            
+            <div >
+              <label for="file"></label>
+              <input type="file" id="file" name="file" accept=".csv, .xlsx" >
+            </div>
+           
+        </form>
     
         <script src='upload_csv.js' ></script>
     </a>
@@ -48,14 +56,14 @@
     </select>
        
       
-    <a class="btn btn-white display-4">
-        <div onclick="action_button();"class="mobi-mbri mobi-mbri-edit-2 mbr-iconfont mbr-iconfont-btn"></div>
+    <a class="btn btn-white display-4" onclick="action_button();">
+        <div class="mobi-mbri mobi-mbri-edit-2 mbr-iconfont mbr-iconfont-btn"></div>
     </a>
-    <a class="btn btn-white display-4">
-        <div  onclick="fit();" class="mobi-mbri mobi-mbri-extension mbr-iconfont mbr-iconfont-btn"></div> 
+    <a class="btn btn-white display-4" onclick="fitting();">
+        <div   class="mobi-mbri mobi-mbri-extension mbr-iconfont mbr-iconfont-btn"></div> 
     </a>
-    <a class="btn btn-white display-4">
-        <div onclick="reset();" class="mobi-mbri mobi-mbri-trash mbr-iconfont mbr-iconfont-btn"></div>
+    <a class="btn btn-white display-4" onclick="reset();">
+        <div  class="mobi-mbri mobi-mbri-trash mbr-iconfont mbr-iconfont-btn"></div>
     </a>
 
         
@@ -63,16 +71,19 @@
     </div>  
 
     <div id ="ipad">
-    <div id="myGraph"style="width: 600px; height: 400px;  cursor: crosshair; float:left;" ></div>
+    <div id="myGraph" style="  cursor: crosshair;" ></div>
     <!--<script>getGraph_select_range(chartLabels, chartData );</script>-->
-    
-    <div id="result" style=" float:left; margin-left: 30px; margin-top:100px;">
-        <h3>1. fitting 범위</h3>
+    <form class="btn btn-white display-2">
+        
+    <div id="result" >
+        <h3>선택 영역</h3>
         <div id="range" ><br><br></div>
-        <h3>2. fitting 함수</h3>
+        <h3>fitting 함수</h3>
         <div id="fitting_result"><br></div>
     </div>
+</form>
 </div>
+
     </body>
 </html>
 <!--범위/함수-->
