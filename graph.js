@@ -7,6 +7,9 @@ var coeObj={
     b10:0,
     c10:0
 };
+  
+var Cycle=0;//주기
+var phase_x=0; // x원점으로 부터의 떨어진 정도
 
 var arrObj={
     rows:0,//엑셀 파일의 내용을 json으로 바꾼 것
@@ -27,11 +30,19 @@ var ymatrix=new Array(1); //y좌표를 행렬로 받아올 변수
 var type=0; //옵션 선택 값
 
 
-
-// 피팅함수 종류가 뭔지 type을 숫자로 받아오는 함수
+  // 피팅함수 종류가 뭔지 type을 숫자로 받아오는 함수
 function change_Type(e){
     const value = e.value;
     type=value;
+}
+function change_Cycle(e){
+  const value = e.value;
+  Cycle=value;
+}
+
+function change_phase_x(e){
+  const value = e.value;
+  phase_x=value;
 }
 
 function action_button(){
@@ -57,7 +68,7 @@ function getdata(){
      console.log(column[0]);
      console.log(column[1]);
 }
-//Time [s]   Voltage [mV]
+
 //다중 그래프 그리기 
 function getGraph(data_x, data_y, fitdata_x, fitdata_y , type){
     var Graph=document.getElementById('myGraph');
@@ -206,30 +217,30 @@ const metrix_sin=()=>{
 };
 
 const metrix_cos=()=>{
-    var x;
-    var cos_x;
-    var y;
+    // var x;
+    // var cos_x;
+    // var y;
     
-    for (var i = 0; i < arrObj.xmatrix.length; i++) {
-        arrObj.xmatrix[i] = new Array(2); 
-    }
+    // for (var i = 0; i < arrObj.xmatrix.length; i++) {
+    //     arrObj.xmatrix[i] = new Array(2); 
+    // }
 
-    for(var j=0; j<arrObj.T_xmatrix.length; j++){
-        arrObj.T_xmatrix[j]=new Array(arrObj.xDatafitdata.length);
-    }
+    // for(var j=0; j<arrObj.T_xmatrix.length; j++){
+    //     arrObj.T_xmatrix[j]=new Array(arrObj.xDatafitdata.length);
+    // }
 
-    for(var i=0; i<arrObj.yDatafitdata.length; i++){
-        y=arrObj.yDatafitdata[i];
-        ymatrix[i]=[y];
-    }
+    // for(var i=0; i<arrObj.yDatafitdata.length; i++){
+    //     y=arrObj.yDatafitdata[i];
+    //     ymatrix[i]=[y];
+    // }
 
-    for(var i=0; i<arrObj.xDatafitdata.length;i++){
-        x = arrObj.xDatafitdata[i]; 
-        cos_x=Math.cos(x);
-        arrObj.xmatrix[i]=[cos_x,1];           
-    }
+    // for(var i=0; i<arrObj.xDatafitdata.length;i++){
+    //     x = arrObj.xDatafitdata[i]; 
+    //     cos_x=Math.cos(x);
+    //     arrObj.xmatrix[i]=[cos_x,1];           
+    // }
    
-    return arrObj.xmatrix;
+    // return arrObj.xmatrix;
     
 };
 
@@ -341,30 +352,16 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
 //선형최소제곱 알고리즘 _sin
 //삼각함수 f(x) = p1*sin(x) + p2로 근사
  function findLineByLeastSquares_sin(values_x,values_y){
-    // var inverted,abc;//x좌표의 역행렬, 계수행렬
-    // var Coe;//(A_t A)'(A_t)까지 한 것
-    // var x,y;
-    // metrix_sin();
-    // zip=rows=>rows[0].map((_,c)=>rows.map(row=>row[c]))
-    // arrObj.T_xmatrix= zip([...arrObj.xmatrix]) //전치된 행렬 t_arr
-    // inverted = math.inv(tarrXarr(arrObj.T_xmatrix, arrObj.xmatrix)); //역행렬 구하기 
-    // Coe=tarrXarr(inverted, arrObj.T_xmatrix);
-    // abc=tarrXarr(Coe, ymatrix); //이차함수 계수 행렬 abc
-    var Cycle = 0.6;//주기
+ 
     var frequency=1/Cycle;//주파수
     var pifre = Math.PI * 2 * frequency;// 2파이/주기
-    var phase_x = -5.5; // x원점으로 부터의 떨어진 정도
+    
     var phase = phase_x *pifre ;
     var result = sinusoidal(values_x,values_y,pifre,phase);
     coeObj.a=result[1];
     coeObj.b=result[3];
     coeObj.c=result[2];
     coeObj.d=result[0];
-     console.log("result:", result);
-    // console.log(ymatrix);
-    // console.log(abc);
-    
-
 
     if (values_x.length != values_y.length) { 
         throw new Error ( 'values_x 및 values_y 매개 변수의 크기가 같아야합니다!'); 
@@ -385,8 +382,7 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
     } 
     coeObj.a10=coeObj.a.toFixed(10);
     coeObj.b10=coeObj.b.toFixed(10);
-    // console.log(result_values_x);
-    // console.log(result_values_y);
+  
        
      return [result_values_x, result_values_y]; 
      
@@ -396,18 +392,20 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
 //선형최소제곱 알고리즘 _cos
 //삼각함수 f(x) = p1*cos(x) + p2로 근사
 function findLineByLeastSquares_cos(values_x,values_y){
-    var inverted,abc;//x좌표의 역행렬, 계수행렬
-    var Coe;//(A_t A)'(A_t)까지 한 것
-    var x,y;
-    metrix_cos();
-    zip=rows=>rows[0].map((_,c)=>rows.map(row=>row[c]))
-    arrObj.T_xmatrix= zip([...arrObj.xmatrix]) //전치된 행렬 t_arr
-    inverted = math.inv(tarrXarr(arrObj.T_xmatrix, arrObj.xmatrix)); //역행렬 구하기 
-    Coe=tarrXarr(inverted, arrObj.T_xmatrix);
-    abc=tarrXarr(Coe, ymatrix); //이차함수 계수 행렬 abc
-    coeObj.a=abc[0][0];
-    coeObj.b=abc[1][0];
     
+    var frequency=1/Cycle;//주파수
+    var pifre = Math.PI * 2 * frequency;// 2파이/주기
+
+    var phase = phase_x *pifre ;
+    var result = cosinusoidal(values_x,values_y,pifre,phase);
+    coeObj.a=result[1];
+    coeObj.b=result[3];
+    coeObj.c=result[2];
+    coeObj.d=result[0];
+  
+    
+
+
     if (values_x.length != values_y.length) { 
         throw new Error ( 'values_x 및 values_y 매개 변수의 크기가 같아야합니다!'); 
     } 
@@ -421,7 +419,7 @@ function findLineByLeastSquares_cos(values_x,values_y){
 
     for (let i = 0; i <values_x.length; i ++) { 
             x = values_x[i]; 
-            y = coeObj.a*Math.cos(x)+ coeObj.b; 
+            y = coeObj.a*(Math.cos(coeObj.b* x +coeObj.c))+coeObj.d; 
             result_values_x.push (x); 
             result_values_y.push (y); 
     } 
@@ -429,7 +427,7 @@ function findLineByLeastSquares_cos(values_x,values_y){
     coeObj.b10=coeObj.b.toFixed(10);
    
        
-    return [result_values_x, result_values_y]; 
+     return [result_values_x, result_values_y]; 
 }
 
 //fitdatating그래프 띄우기 - 추후 보완
@@ -472,7 +470,7 @@ function fitting(){ //select color
        {
         alert('옵션을 선택해 주세요');
        }
-
+       console.log("fit result : ",fitdata_xy);
         getGraph(arrObj.xDatafitdata,arrObj.yDatafitdata,fitdata_xy[0], fitdata_xy[1],  type); 
 }
 
@@ -482,7 +480,6 @@ function reset(){
 
 /////////////////////////////////////////
 
-////////////////////////
 function determinant(a, n) {
     var b, d, i, j, m, s, x, y;
   
@@ -585,6 +582,48 @@ function determinant(a, n) {
   
   //////////////////
    function sinusoidal(x, y, frequency, phase) {
+    var a, b, i, fit, u;
+  
+    frequency = +frequency;
+    phase     = +phase;
+  
+    if(isFinite(phase)) {
+      u = new Array(x.length * 2);
+  
+      for(i = x.length; i--; ) {
+        u[i * 2 + 0] = 1.0;
+        u[i * 2 + 1] = Math.sin(x[i] * frequency + phase);
+      }
+  
+      fit = linear(u, y, 2);
+     
+      fit.push(phase, frequency);
+    }
+  
+    else {
+      u = new Array(x.length * 3);
+  
+      for(i = x.length; i--; ) {
+        u[i * 3 + 0] = 1.0;
+        u[i * 3 + 1] = Math.sin(x[i] * frequency);
+        u[i * 3 + 2] = Math.cos(x[i] * frequency);
+      }
+  
+      fit = linear(u, y, 3);
+      fit.push(frequency);
+  
+      a = fit[1];
+      b = fit[2];
+      fit[1] = Math.sqrt(a * a + b * b);
+      fit[2] = Math.atan2(b, a);
+    }
+  console.log("u : " ,u);
+  
+    return fit;
+  };
+
+
+  function cosinusoidal(x, y, frequency, phase) {
     var a, b, i, fit, u;
   
     frequency = +frequency;

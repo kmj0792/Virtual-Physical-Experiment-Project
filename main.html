@@ -54,7 +54,15 @@
                 <option value="3">sin</option>
                 <option value="4">cos</option>
     </select>
-       
+    <div>
+        <form id="number" action="action.jsp"class="btn btn-white display-4" >
+            <div>주기 : <input type="number" id="Cycle" name="usernumber" value="5" step="0.1"  onchange="change_Cycle(this)" class="btn btn-white display-4"></div>
+        </form>
+        <form id="number" action="action.jsp"class="btn btn-white display-4" >
+            <div>x원점 : <input type="number" id="phase_x" name="usernumber" value="5" step="0.1" onchange="change_phase_x(this)" class="btn btn-white display-4"></div>
+        </form>
+    </div>
+   
       
     <a class="btn btn-white display-4" onclick="action_button();">
         <div class="mobi-mbri mobi-mbri-edit-2 mbr-iconfont mbr-iconfont-btn"></div>
@@ -73,11 +81,12 @@
     <div id ="ipad">
     <div id="myGraph" style="  cursor: crosshair;" ></div>
     <!--<script>getGraph_select_range(chartLabels, chartData );</script>-->
-    <form class="btn btn-white display-2">
+    <form class="btn btn-white display-6">
         
     <div id="result" >
         <h3>선택 영역</h3>
         <div id="range" ><br><br></div>
+        <br>
         <h3>fitting 함수</h3>
         <div id="fitting_result"><br></div>
     </div>
