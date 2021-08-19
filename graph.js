@@ -5,10 +5,11 @@ var coeObj={
     d:0,
     a10:0,
     b10:0,
-    c10:0
+    c10:0,
+    d10:0
 };
   
-var Cycle=0;//주기
+var period=5;//주기
 var phase_x=0; // x원점으로 부터의 떨어진 정도
 
 var arrObj={
@@ -25,20 +26,46 @@ var arrObj={
     xmatrix:0,//x좌표의 행렬
     T_xmatrix:0// 전치행렬
 };
+var period_1=0;
+var period_2=0;
+var period_3=0;
 
 var ymatrix=new Array(1); //y좌표를 행렬로 받아올 변수 
 var type=0; //옵션 선택 값
-
-
+var roof_type=0;
+var values_2x=[];
+var values_final=[];
   // 피팅함수 종류가 뭔지 type을 숫자로 받아오는 함수
 function change_Type(e){
     const value = e.value;
     type=value;
 }
-function change_Cycle(e){
+function change_Roof_Type(e){
   const value = e.value;
-  Cycle=value;
+  roof_type=value;
 }
+
+function change_cycle_show(sVal)
+{
+	var obValueView = document.getElementById("cycle_view");
+	obValueView.innerHTML = sVal
+}
+
+
+function change_cycle(e){
+  const value = e.value;
+  period=parseFloat(value);
+
+}
+
+
+
+function  change_phase_x_show(sVal)
+{
+	var obValueView = document.getElementById("phase_x_view");
+	obValueView.innerHTML = sVal
+}
+
 
 function change_phase_x(e){
   const value = e.value;
@@ -48,30 +75,34 @@ function change_phase_x(e){
 function action_button(){
     arrObj.yData=[];
     arrObj.xData=[];
-    //const xname = document.getElementById('directory_xdata').value;
-    //const yname = document.getElementById('directory_ydata').value;
+    
     getdata();
     getGraph_select_range(arrObj.xData, arrObj.yData);
 }
    
 //좌표이름 바꾸는 곳
 function getdata(){
-    console.log(arrObj.rows);
+  
     const column = Object.keys(arrObj.rows[0]);
   
-    
+    // console.log(column);
     for(var i=0; i<arrObj.rows.length; i++){
         arrObj.xData.push(arrObj.rows[i][column[0]]);
         arrObj.yData.push(arrObj.rows[i][column[1]]);
     }
     
-     console.log(column[0]);
-     console.log(column[1]);
+    //  console.log(column[0]);
+    //  console.log(column[1]);
 }
 
 //다중 그래프 그리기 
-function getGraph(data_x, data_y, fitdata_x, fitdata_y , type){
+function getGraph(data_x, data_y, fitdata_x, fitdata_y , fitdata_x_1, fitdata_y_1 ,fitdata_x_2, fitdata_y_2 , 
+  fitdata_x1, fitdata_y1 ,fitdata_x2, fitdata_y2 ,fitdata_x3, fitdata_y3, type){
+
     var Graph=document.getElementById('myGraph');
+    var labels = ['Original', 'Fitting'];
+
+    //trace1 : 선택된 범위의 원래data 그래프 
     var trace1 = {
             x: data_x,
             y: data_y,
@@ -81,7 +112,7 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , type){
                 color:"black"
             }
     };
-
+    //trace2 : 선택된 범위의 피팅 그래프 
     var trace2 = {
             x: fitdata_x,
             y: fitdata_y,
@@ -89,13 +120,75 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , type){
             mode: 'lines', // 점 안찍히고 라인만 
             line:{
                 color:"red"
-            }
+            },
+            text:labels[1]
+    }; 
+    //trace3 : 선택된 범위의 -5%피팅 그래프
+    var trace3 = {
+      x: fitdata_x_1,
+      y: fitdata_y_1,
+      type: 'scatter',
+      mode: 'lines', // 점 안찍히고 라인만 
+      line:{
+          color:"yellow"
+      },
+      text:labels[1]
     };
-    var data = [trace1, trace2];
+    //trace4 : 선택된 범위의 -10%피팅 그래프
+    var trace4 = {
+      x: fitdata_x_2,
+      y: fitdata_y_2,
+      type: 'scatter',
+      mode: 'lines', // 점 안찍히고 라인만 
+      line:{
+          color:"green"
+      },
+      text:labels[1]
+    };
+    //trace5 : 선택된 범위의 +5%피팅 그래프
+    var trace5 = {
+      x: fitdata_x1,
+      y: fitdata_y1,
+      type: 'scatter',
+      mode: 'lines', // 점 안찍히고 라인만 
+      line:{
+          color:"blue"
+      },
+      text:labels[1]
+    };
+    //trace6 : 선택된 범위의 +10%피팅 그래프
+    var trace6 = {
+      x: fitdata_x2,
+      y: fitdata_y2,
+      type: 'scatter',
+      mode: 'lines', // 점 안찍히고 라인만 
+      line:{
+          color:"orange"
+      },
+      text:labels[1]
+    };
+    //trace7 : 선택된 범위의 +20%피팅 그래프
+    var trace7 = {
+      x: fitdata_x3,
+      y: fitdata_y3,
+      type: 'scatter',
+      mode: 'lines', // 점 안찍히고 라인만 
+      line:{
+          color:"white"
+      },
+      text:labels[1]
+    };
+
+    var data = [trace1, trace2,trace3, trace4,trace5,trace6,trace7];
     var layout = {
-        title: 'Least Squares fitdatating Graph',
-        font:{size:10},
-        showlegend: false
+
+        text:labels[0],
+        title: 'Fitting Graph',
+        font:{size:20, family:"Times New Roman"},
+
+        showlegend: true,
+        paper_bgcolor:"rgba(166, 166, 166, 0.88)",//전체 배경
+        plot_bgcolor:"rgba(227, 227, 227, 0.88)"//그래프 부분 색
     };
     var config={
         displayModeBar: true,
@@ -104,6 +197,12 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , type){
         displaylogo:false
     };
     Plotly.newPlot(Graph, data, layout,config);
+
+    coeObj.a10=coeObj.a.toFixed(2);//10자리수까지 반올림
+    coeObj.b10=coeObj.b.toFixed(2); 
+    coeObj.c10=coeObj.c.toFixed(2);//10자리수까지 반올림
+    coeObj.d10=coeObj.d.toFixed(2); 
+
     if (type==1){
         document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"x + (" +coeObj.b10+")"
         //Plotly.relayout(where, 'title',`y = ${a10}x + ${b10}`);
@@ -111,21 +210,26 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , type){
         document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"x² + (" +coeObj.b10+")x + (" + coeObj.c10+")"
         //Plotly.relayout(where, 'title',`y = ${a10}x² + ${b10}x + ${c10}`);
     }else if(type==3){
-      
-        document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a +"sin("+ coeObj.b +"x + "+ coeObj.c + ")+ (" +coeObj.d+")"
-        //y = coeObj.d*(Math.sin((2*Math.PI*(1/coeObj.b)* x) +coeObj.c))+coeObj.a; 
+        if(coeObj.c10==0){
+          document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"sin("+ coeObj.b10 +"x) + (" +coeObj.d10+")"
+        } else{
+          document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"sin("+ coeObj.b10 +"x + "+ coeObj.c10 + ")+ (" +coeObj.d10+")"
+        //y = coeObj.d*(Math.sin((2*Math.PI*(1/coeObj.b)* x) +coeObj.c))+coeObj.a;
+       }
     }else if(type==4){
-        document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"cos(x) + (" +coeObj.b10+")"
+      if(coeObj.c10==0){
+        document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"cos("+ coeObj.b10 +"x) + (" +coeObj.d10+")"
+      } else{
+        document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"cos("+ coeObj.b10 +"x + "+ coeObj.c10 + ")+ (" +coeObj.d10+")"
         //Plotly.relayout(where, 'title',`y = ${a10} cos(x) + ${b10}`);
-    }
+        }
+      }
 }
 
 
 //영역 선택할 수 있는 그래프 
 function getGraph_select_range(data_x, data_y){
     var Graph = document.getElementById('myGraph');
-    var d3 = Plotly.d3;
-    var formatter = d3.format('.3f');
     var data=[{
         mode: 'lines+markers',
         x: data_x,
@@ -134,11 +238,11 @@ function getGraph_select_range(data_x, data_y){
     }];
     var layout={
         title : 'Graph',
-        font:{size:12, family:"Times New Roman"},
+        font:{size:20, family:"Times New Roman"},
         dragmode: 'select',
-        paper_bgcolor:"rgba(231, 201, 3, 0.51)",//전체 배경
-        plot_bgcolor:"rgba(255, 255, 255, 0.51)",//그래프 부분 배경
-        bordercolor:"rgba(0, 0, 0, 1)"
+        paper_bgcolor:"rgba(166, 166, 166, 0.88)",//전체 배경
+        plot_bgcolor:"rgba(227, 227, 227, 0.88)"//그래프 부분 배경
+        
         
     };
     var config={
@@ -153,7 +257,7 @@ function getGraph_select_range(data_x, data_y){
     Graph.on('plotly_selected', (eventData) => {
         arrObj.xRange = eventData.range.x;
         arrObj.yRange = eventData.range.y;
-        document.getElementById('range').innerHTML="x range : "+ "["+ arrObj.xRange.map(formatter).join(' ~ ')+"]"+ "<br>"+"y range : "+ "["+arrObj.yRange.map(formatter).join(' ~ ')+"]"
+       // document.getElementById('range').innerHTML="x range : "+ "["+ arrObj.xRange.map(formatter).join(' ~ ')+"]"+ "<br>"+"y range : "+ "["+arrObj.yRange.map(formatter).join(' ~ ')+"]"
        // Plotly.relayout('myGraph', 'title','Graph'        );
     }); 
 }
@@ -187,62 +291,6 @@ const metrix=()=>{
     
 };
 
-const metrix_sin=()=>{
-    // var x;
-    // var sin_x;
-    // var y;
-    
-    // for (var i = 0; i < arrObj.xmatrix.length; i++) {
-    //     arrObj.xmatrix[i] = new Array(2); 
-    // }
-
-    // for(var j=0; j<arrObj.T_xmatrix.length; j++){
-    //     arrObj.T_xmatrix[j]=new Array(arrObj.xDatafitdata.length);
-    // }
-
-    // for(var i=0; i<arrObj.yDatafitdata.length; i++){
-    //     y=arrObj.yDatafitdata[i];
-    //     ymatrix[i]=[y];
-    // }
-
-    // for(var i=0; i<arrObj.xDatafitdata.length;i++){
-    //     x = arrObj.xDatafitdata[i];
-    //     console.log(Math.sin((Math.PI/0.6)*x)); 
-    //     sin_x=Math.sin(x);
-    //     arrObj.xmatrix[i]=[sin_x,1];           
-    // }
-   
-    // return arrObj.xmatrix;
-    
-};
-
-const metrix_cos=()=>{
-    // var x;
-    // var cos_x;
-    // var y;
-    
-    // for (var i = 0; i < arrObj.xmatrix.length; i++) {
-    //     arrObj.xmatrix[i] = new Array(2); 
-    // }
-
-    // for(var j=0; j<arrObj.T_xmatrix.length; j++){
-    //     arrObj.T_xmatrix[j]=new Array(arrObj.xDatafitdata.length);
-    // }
-
-    // for(var i=0; i<arrObj.yDatafitdata.length; i++){
-    //     y=arrObj.yDatafitdata[i];
-    //     ymatrix[i]=[y];
-    // }
-
-    // for(var i=0; i<arrObj.xDatafitdata.length;i++){
-    //     x = arrObj.xDatafitdata[i]; 
-    //     cos_x=Math.cos(x);
-    //     arrObj.xmatrix[i]=[cos_x,1];           
-    // }
-   
-    // return arrObj.xmatrix;
-    
-};
 
 //행렬 곱 구하기 - 곱한 결과 행렬 반환
 function tarrXarr(tarr, arr){
@@ -282,17 +330,7 @@ const findLineByLeastSquares_1 = (values_x, values_y)=> {
     coeObj.a = (count * xy_sum-x_sum * y_sum) / (count * xx_sum-x_sum * x_sum); 
     coeObj.b = (y_sum / count)-(coeObj.a * x_sum) / count; 
  
-    //////
-    // var u = new Array(values_length * 2);
-  
-    //   for(i =values_length; i--; ) {
-    //     u[i * 2 + 0] = 1.0;
-    //     u[i * 2 + 1] =values_x[i];
-    //   }
-    // var result = linear(u, values_y,2);
-    // console.log("result a,b : ",result);
-    // coeObj.a =result[0]; 
-    // coeObj.b =result[1];
+    
     var result_values_x = [];
     var result_values_y = []; 
 
@@ -303,9 +341,6 @@ const findLineByLeastSquares_1 = (values_x, values_y)=> {
             result_values_y.push (y); 
     } 
     
-    coeObj.a10=coeObj.a.toFixed(10);//10자리수까지 반올림
-    coeObj.b10=coeObj.b.toFixed(10); 
-    //document.getElementById('output').innerHTML="y = " +m+"x + "+"("+b+")"
     return [result_values_x, result_values_y]; 
 };
 
@@ -314,6 +349,7 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
     var inverted,abc;//x좌표의 역행렬, 계수행렬
     var Coe;//(A_t A)'(A_t)까지 한 것
     var x,y;
+    
     metrix(); //arr 리턴
     zip=rows=>rows[0].map((_,c)=>rows.map(row=>row[c]))
     arrObj.T_xmatrix= zip([...arrObj.xmatrix]) //전치된 행렬 t_arr
@@ -325,15 +361,23 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
     coeObj.c=abc[0][0];
 
     if (values_x.length != values_y.length) { 
-        throw new Error ( 'values_x 및 values_y 매개 변수의 크기가 같아야합니다!'); 
+        throw new Error ('values_x 및 values_y 매개 변수의 크기가 같아야합니다!'); 
     } 
 
     if (values_x.length === 0) { 
         return [[], []]; 
     } 
+    //console.log("전 x:", values_x);
 
+   
     var result_values_x = [];
     var result_values_y = []; 
+
+    for(var i=0; i<roof_type; i++){
+      values_x =roof(values_x);
+    }
+
+    //console.log("후 x:", values_x);
 
     for (let i = 0; i <values_x.length; i ++) { 
             x = values_x[i]; 
@@ -341,19 +385,38 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
             result_values_x.push (x); 
             result_values_y.push (y); 
     } 
-    coeObj.a10=coeObj.a.toFixed(10);
-    coeObj.b10=coeObj.b.toFixed(10);
-    coeObj.c10=coeObj.c.toFixed(10);
-       
+
+    
     return [result_values_x, result_values_y]; 
   
 };
 
+function roof(roofdata){
+  var roofvalue=[];
+  var roof_result=[];
+  for (let i = 0; i <roofdata.length-1; i ++) { 
+    var sum =roofdata[i]+roofdata[i+1];
+    var squr = sum/2;
+    roofvalue.push(squr);
+  }
+
+  roof_result = roofdata.concat(roofvalue);
+
+  roof_result.sort(function(a,b){
+     return a-b; //오름차순 청렬
+   });
+  return roof_result;
+
+}
+
 //선형최소제곱 알고리즘 _sin
 //삼각함수 f(x) = p1*sin(x) + p2로 근사
- function findLineByLeastSquares_sin(values_x,values_y){
+ function findLineByLeastSquares_sin(values_x,values_y,p){
  
-    var frequency=1/Cycle;//주파수
+    // period_1=period+(period*0.1);
+    // period_2=period+(period*0.2);
+    // period_3=period+(period*0.3);
+    var frequency=1/p;//주파수
     var pifre = Math.PI * 2 * frequency;// 2파이/주기
     
     var phase = phase_x *pifre ;
@@ -373,6 +436,16 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
 
     var result_values_x = [];
     var result_values_y = []; 
+    //console.log( "전 :", values_x);
+
+    for(var i=0; i<roof_type; i++){
+      values_x =roof(values_x);
+    }
+    
+    //console.log( "후 :",values_x);
+
+
+    //
 
     for (let i = 0; i <values_x.length; i ++) { 
             x = values_x[i]; 
@@ -380,20 +453,21 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
             result_values_x.push (x); 
             result_values_y.push (y); 
     } 
-    coeObj.a10=coeObj.a.toFixed(10);
-    coeObj.b10=coeObj.b.toFixed(10);
-  
-       
-     return [result_values_x, result_values_y]; 
-     
 
+    // var max1=Math.max.apply(null, values_y); 
+    // var max2=Math.max.apply(null, result_values_y);
+    // //
+    // console.log("원본값 최대 : ", max1);
+    // console.log("피팅값 최대 : ", max2);
+
+    return [result_values_x, result_values_y]; 
 }
 
 //선형최소제곱 알고리즘 _cos
 //삼각함수 f(x) = p1*cos(x) + p2로 근사
 function findLineByLeastSquares_cos(values_x,values_y){
     
-    var frequency=1/Cycle;//주파수
+    var frequency=1/period;//주파수
     var pifre = Math.PI * 2 * frequency;// 2파이/주기
 
     var phase = phase_x *pifre ;
@@ -402,9 +476,6 @@ function findLineByLeastSquares_cos(values_x,values_y){
     coeObj.b=result[3];
     coeObj.c=result[2];
     coeObj.d=result[0];
-  
-    
-
 
     if (values_x.length != values_y.length) { 
         throw new Error ( 'values_x 및 values_y 매개 변수의 크기가 같아야합니다!'); 
@@ -419,23 +490,23 @@ function findLineByLeastSquares_cos(values_x,values_y){
 
     for (let i = 0; i <values_x.length; i ++) { 
             x = values_x[i]; 
-            y = coeObj.a*(Math.cos(coeObj.b* x +coeObj.c))+coeObj.d; 
+            y = result[1]*(Math.cos(result[3]* x +result[2]))+result[0]; 
             result_values_x.push (x); 
             result_values_y.push (y); 
     } 
-    coeObj.a10=coeObj.a.toFixed(10);
-    coeObj.b10=coeObj.b.toFixed(10);
-   
-       
      return [result_values_x, result_values_y]; 
 }
 
-//fitdatating그래프 띄우기 - 추후 보완
-function fitting(){ //select color
+//fitdatating그래프 띄우기 
+function fitting(){
         var max_value,min_value;
         var i_x_min=0;
         var i_x_max=0;
-
+        period_2=period-(period*0.1);
+        period_1=period-(period*0.05);
+        period1=period+(period*0.05);
+        period2=period+(period*0.1);
+        period3=period+(period*0.2);
 
         while(arrObj.xData[i_x_min] <= arrObj.xRange[0]){
             i_x_min++;
@@ -456,22 +527,35 @@ function fitting(){ //select color
         var fitdata_xy;
 
         if(type==1){
-            fitdata_xy = findLineByLeastSquares_1(arrObj.xDatafitdata, arrObj.yDatafitdata); //선형제곱 1차 피팅
-        } else if(type==2){
+            fitdata_xy = findLineByLeastSquares_1(arrObj.xDatafitdata, arrObj.yDatafitdata); //선형피팅
+        } 
+        else if(type==2){
             arrObj.T_xmatrix = new Array(3);//전치행렬
-            fitdata_xy = findLineByLeastSquares_2(arrObj.xDatafitdata, arrObj.yDatafitdata); //선형제곱 2차 피팅
-        } else if(type==3){
+            fitdata_xy = findLineByLeastSquares_2(arrObj.xDatafitdata, arrObj.yDatafitdata); //곡선피팅
+        } 
+        else if(type==3){
             arrObj.T_xmatrix = new Array(2);//전치행렬
-            fitdata_xy = findLineByLeastSquares_sin(arrObj.xDatafitdata, arrObj.yDatafitdata); //선형제곱 sin 피팅
-        }else if(type==4){
+            fitdata_xy = findLineByLeastSquares_sin(arrObj.xDatafitdata, arrObj.yDatafitdata,period); //sin 피팅
+            fitdata_xy_1 = findLineByLeastSquares_sin(arrObj.xDatafitdata, arrObj.yDatafitdata,period_1); //sin 피팅 -10%
+            fitdata_xy_2 = findLineByLeastSquares_sin(arrObj.xDatafitdata, arrObj.yDatafitdata,period_2); //sin 피팅 -5%
+            fitdata_xy1 = findLineByLeastSquares_sin(arrObj.xDatafitdata, arrObj.yDatafitdata,period1); //sin 피팅 +5%
+            fitdata_xy2 = findLineByLeastSquares_sin(arrObj.xDatafitdata, arrObj.yDatafitdata,period2); //sin 피팅 +10%
+            fitdata_xy3 = findLineByLeastSquares_sin(arrObj.xDatafitdata, arrObj.yDatafitdata,period3); //sin 피팅 +20%
+        }
+        else if(type==4){
             arrObj.T_xmatrix = new Array(2);//전치행렬
-            fitdata_xy = findLineByLeastSquares_cos(arrObj.xDatafitdata, arrObj.yDatafitdata); //선형제곱 sin 피팅
-        }else if(type==0)
-       {
-        alert('옵션을 선택해 주세요');
+            fitdata_xy = findLineByLeastSquares_cos(arrObj.xDatafitdata, arrObj.yDatafitdata); //cos 피팅
+        }
+        else if(type==0){
+        alert('옵션을 선택해 주세요'); //옵션선택 안함 -> 경고창
        }
-       console.log("fit result : ",fitdata_xy);
-        getGraph(arrObj.xDatafitdata,arrObj.yDatafitdata,fitdata_xy[0], fitdata_xy[1],  type); 
+        getGraph(arrObj.xDatafitdata,arrObj.yDatafitdata,
+          fitdata_xy[0], fitdata_xy[1], 
+          fitdata_xy_1[0], fitdata_xy_1[1],
+          fitdata_xy_2[0], fitdata_xy_2[1], 
+          fitdata_xy1[0], fitdata_xy1[1], 
+          fitdata_xy2[0], fitdata_xy2[1], 
+          fitdata_xy3[0], fitdata_xy3[1], type); 
 }
 
 function reset(){
@@ -617,8 +701,6 @@ function determinant(a, n) {
       fit[1] = Math.sqrt(a * a + b * b);
       fit[2] = Math.atan2(b, a);
     }
-  console.log("u : " ,u);
-  
     return fit;
   };
 
@@ -659,8 +741,6 @@ function determinant(a, n) {
       fit[1] = Math.sqrt(a * a + b * b);
       fit[2] = Math.atan2(b, a);
     }
-  console.log("u : " ,u);
-  
     return fit;
   };
   
