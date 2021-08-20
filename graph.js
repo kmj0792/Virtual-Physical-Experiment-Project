@@ -85,14 +85,10 @@ function getdata(){
   
     const column = Object.keys(arrObj.rows[0]);
   
-    // console.log(column);
     for(var i=0; i<arrObj.rows.length; i++){
         arrObj.xData.push(arrObj.rows[i][column[0]]);
         arrObj.yData.push(arrObj.rows[i][column[1]]);
     }
-    
-    //  console.log(column[0]);
-    //  console.log(column[1]);
 }
 
 //다중 그래프 그리기 
@@ -103,9 +99,10 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , fitdata_x_1, fitdata_y_
     var labels = ['Original', 'Fitting'];
 
     //trace1 : 선택된 범위의 원래data 그래프 
-    var trace1 = {
+    var original = {
             x: data_x,
             y: data_y,
+            name: 'original',
             type: 'scatter',
             mode: 'lines+markers', // 점 안찍히고 라인만 
             line:{
@@ -113,9 +110,10 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , fitdata_x_1, fitdata_y_
             }
     };
     //trace2 : 선택된 범위의 피팅 그래프 
-    var trace2 = {
+    var fit = {
             x: fitdata_x,
             y: fitdata_y,
+            name: 'fitting',
             type: 'scatter',
             mode: 'lines', // 점 안찍히고 라인만 
             line:{
@@ -124,9 +122,10 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , fitdata_x_1, fitdata_y_
             text:labels[1]
     }; 
     //trace3 : 선택된 범위의 -5%피팅 그래프
-    var trace3 = {
+    var minus5p = {
       x: fitdata_x_1,
       y: fitdata_y_1,
+      name: 'fit -10%',
       type: 'scatter',
       mode: 'lines', // 점 안찍히고 라인만 
       line:{
@@ -135,9 +134,10 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , fitdata_x_1, fitdata_y_
       text:labels[1]
     };
     //trace4 : 선택된 범위의 -10%피팅 그래프
-    var trace4 = {
+    var minus10p = {
       x: fitdata_x_2,
       y: fitdata_y_2,
+      name: 'fit -20%',
       type: 'scatter',
       mode: 'lines', // 점 안찍히고 라인만 
       line:{
@@ -146,9 +146,10 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , fitdata_x_1, fitdata_y_
       text:labels[1]
     };
     //trace5 : 선택된 범위의 +5%피팅 그래프
-    var trace5 = {
+    var plus5p = {
       x: fitdata_x1,
       y: fitdata_y1,
+      name: 'fit +10%',
       type: 'scatter',
       mode: 'lines', // 점 안찍히고 라인만 
       line:{
@@ -157,9 +158,10 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , fitdata_x_1, fitdata_y_
       text:labels[1]
     };
     //trace6 : 선택된 범위의 +10%피팅 그래프
-    var trace6 = {
+    var plus10p = {
       x: fitdata_x2,
       y: fitdata_y2,
+      name: 'fit +20%',
       type: 'scatter',
       mode: 'lines', // 점 안찍히고 라인만 
       line:{
@@ -168,9 +170,10 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , fitdata_x_1, fitdata_y_
       text:labels[1]
     };
     //trace7 : 선택된 범위의 +20%피팅 그래프
-    var trace7 = {
+    var plus20p = {
       x: fitdata_x3,
       y: fitdata_y3,
+      name: 'fit +30%',
       type: 'scatter',
       mode: 'lines', // 점 안찍히고 라인만 
       line:{
@@ -178,17 +181,23 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , fitdata_x_1, fitdata_y_
       },
       text:labels[1]
     };
+    if(type==3){
+      var data = [original, fit,minus5p, minus10p,plus5p,plus10p,plus20p];
+    }else if(type==1||type==2){
+      var data = [original, fit];
+    }
+    
+    
 
-    var data = [trace1, trace2,trace3, trace4,trace5,trace6,trace7];
     var layout = {
-
+        autosize:true,
         text:labels[0],
         title: 'Fitting Graph',
         font:{size:20, family:"Times New Roman"},
-
         showlegend: true,
         paper_bgcolor:"rgba(166, 166, 166, 0.88)",//전체 배경
         plot_bgcolor:"rgba(227, 227, 227, 0.88)"//그래프 부분 색
+  
     };
     var config={
         displayModeBar: true,
@@ -257,8 +266,6 @@ function getGraph_select_range(data_x, data_y){
     Graph.on('plotly_selected', (eventData) => {
         arrObj.xRange = eventData.range.x;
         arrObj.yRange = eventData.range.y;
-       // document.getElementById('range').innerHTML="x range : "+ "["+ arrObj.xRange.map(formatter).join(' ~ ')+"]"+ "<br>"+"y range : "+ "["+arrObj.yRange.map(formatter).join(' ~ ')+"]"
-       // Plotly.relayout('myGraph', 'title','Graph'        );
     }); 
 }
 
@@ -436,16 +443,10 @@ function roof(roofdata){
 
     var result_values_x = [];
     var result_values_y = []; 
-    //console.log( "전 :", values_x);
 
     for(var i=0; i<roof_type; i++){
       values_x =roof(values_x);
     }
-    
-    //console.log( "후 :",values_x);
-
-
-    //
 
     for (let i = 0; i <values_x.length; i ++) { 
             x = values_x[i]; 
@@ -453,12 +454,6 @@ function roof(roofdata){
             result_values_x.push (x); 
             result_values_y.push (y); 
     } 
-
-    // var max1=Math.max.apply(null, values_y); 
-    // var max2=Math.max.apply(null, result_values_y);
-    // //
-    // console.log("원본값 최대 : ", max1);
-    // console.log("피팅값 최대 : ", max2);
 
     return [result_values_x, result_values_y]; 
 }
@@ -502,11 +497,11 @@ function fitting(){
         var max_value,min_value;
         var i_x_min=0;
         var i_x_max=0;
-        period_2=period-(period*0.1);
-        period_1=period-(period*0.05);
-        period1=period+(period*0.05);
-        period2=period+(period*0.1);
-        period3=period+(period*0.2);
+        period_2=period-(period*0.2);
+        period_1=period-(period*0.1);
+        period1=period+(period*0.1);
+        period2=period+(period*0.2);
+        period3=period+(period*0.3);
 
         while(arrObj.xData[i_x_min] <= arrObj.xRange[0]){
             i_x_min++;
@@ -525,6 +520,11 @@ function fitting(){
        // t_arr = new Array(3);//전치행렬
 
         var fitdata_xy;
+        var fitdata_xy_2=0; //sin 피팅 -5%
+        var fitdata_xy_1=0;
+        var fitdata_xy1=0;
+        var fitdata_xy2=0; 
+        var fitdata_xy3=0;
 
         if(type==1){
             fitdata_xy = findLineByLeastSquares_1(arrObj.xDatafitdata, arrObj.yDatafitdata); //선형피팅
