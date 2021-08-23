@@ -5,6 +5,7 @@
         <title>그래프</title>
         <!-- <link rel="stylesheet" href="https://unpkg.com/mvp.css"> -->
       <!-- <link href="index.css" rel="stylesheet"  type="text/css"/>--> 
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="assets/web/assets/mobirise-icons2/mobirise2.css">
       <link rel="stylesheet" href="assets/tether/tether.min.css">
       <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -71,31 +72,37 @@
 
     <a class="btn btn-white display-6">
         <div id="result" >
-            <!-- <h3>선택 영역</h3>
-            <div id="range" ><br><br></div> -->
-            <!-- <br> -->
-            
             <span id="fitting_result">fitting 함수</span>
+        
+        </div>
+      
+    </a>
+    <a class="btn btn-white display-6">
+        
+        <div id="result" >
+            <span id="fitting_value">best period</span>
         </div>
     </a>
-
     <div>
         <form id="number" action="action.jsp"class="btn btn-white display-8"style = "width:20%;" >
             <div style = "width:100%;">주기 : 
-                <font size=2 id="cycle_view">5</font>
-                <input  style = "width:100%;" type="range" id="cycle" name="usernumber" oninput='change_cycle_show(this.value)' 
-                step='0.1'value="5" min="0" max="20" onchange="change_cycle(this)" class="btn btn-white display-4">
+                <input type="text" id="cycle_view"></font>
+               
+
             </div>
         </form>
         
         <form id="number" action="action.jsp"class="btn btn-white display-8"  style = "width:20%;">
             
             <div style = "width:100%;">파형시작점 : 
-                <font size=2 id="phase_x_view">0</font>
-                <input  style = "width:100%;" type="range" id="phase_x" name="usernumber" oninput='change_phase_x_show(this.value)' step='0.1'value="0" min="-10" max="10" onchange="change_phase_x(this)" class="btn btn-white display-4">
+        
+                <input type="text" id="phase_x_view"></font>
+             
+               
             </div>
-        </form>  
+        </form>
+        <button  onclick="change()">클릭</button>  
     </div>    
-    <div id="myGraph" style="  cursor: crosshair;" ></div>
+    <div id="myGraph" style="  cursor: crosshair;  width: 100%; height: 100%;" ></div>
 </body>
 </html>
