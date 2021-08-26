@@ -3,8 +3,7 @@
     <meta charset="utf-8">
     <head>
         <title>그래프</title>
-        <!-- <link rel="stylesheet" href="https://unpkg.com/mvp.css"> -->
-      <!-- <link href="index.css" rel="stylesheet"  type="text/css"/>--> 
+
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="assets/web/assets/mobirise-icons2/mobirise2.css">
       <link rel="stylesheet" href="assets/tether/tether.min.css">
@@ -39,16 +38,13 @@
     
         <script src='upload_csv.js' ></script>
     </a>
-    <!-- <a class="btn btn-white display-4">
-        <div action ="degree"  class=" mobi-mbri mobi-mbri-bulleted-list mbr-iconfont mbr-iconfont-btn">
-        </div>
-    </a> -->
+
     <select  id="selectBox" name="degree" onchange="change_Type(this)" class="btn btn-white display-4">
                 <option value="0" selected >피팅함수선택</option>
                 <option value="1">선형</option>
                 <option value="2">곡선형</option>
                 <option value="3">sin</option>
-                <option value="4">cos</option>
+                <!-- <option value="4">cos</option> -->
     </select>
     <select  id="selectBox" name="degree" onchange="change_Roof_Type(this)" class="btn btn-white display-4">
         <option value="-1" selected >반복</option>
@@ -58,19 +54,22 @@
         <option value="5">x32</option>
       
 </select>
-
+    <!--그래프 띄우는 버튼: 연필모양-->
     <a class="btn btn-white display-4" onclick="action_button();">
         <div class="mobi-mbri mobi-mbri-edit-2 mbr-iconfont mbr-iconfont-btn"></div>
     </a>
+
+     <!--피팅 그래프 띄우는 버튼:퍼즐모양-->
     <a class="btn btn-white display-4" onclick="fitting();">
         <div   class="mobi-mbri mobi-mbri-extension mbr-iconfont mbr-iconfont-btn"></div> 
     </a>
+
+     <!--페이지 초기화하는 버튼 : 휴지통 모양-->
     <a class="btn btn-white display-4" onclick="reset();">
         <div  class="mobi-mbri mobi-mbri-trash mbr-iconfont mbr-iconfont-btn"></div>
     </a>
 
-
- 
+    <!--sin 함수 피팅 시, 입력해야 할 정보-->
     <a>
         <form id="number" action="action.jsp"class="btn btn-white display-8"style = "width:22%;" >
             <div style = "width:100%;">주기 : 
@@ -85,14 +84,16 @@
             <div style = "width:100%;">파형시작 : 
         
                 <input type="text" id="phase_x_view" style="width:70%"></font>
-             
-               
+
             </div>
         </form>
 
-    </a>    
+    </a>   
+
+    <!--그래프 나타날 위치-->
     <div id="myGraph" style="  cursor: crosshair;  width: 100%; height:100%;" ></div>
 
+    <!--피팅 결과 함수 나타날 위치-->
     <a class="btn btn-white display-6">
         <div id="result" >
             <span id="fitting_result">fitting 함수</span>
@@ -100,16 +101,19 @@
         </div>
       
     </a>
+
+    <!--피팅 결과 최적 주기가 나타날 위치-->
     <a class="btn btn-white display-6">
         
         <div id="result" >
             <span id="fitting_value">best period</span>
         </div>
     </a>
+
+    <!--피팅 결과 최적 r값이 나타날 위치-->
     <a class="btn btn-white display-6">
-        
         <div id="result" >
- <span id="r_value">r</span>
+        <span id="r_value">r</span>
         </div>
     </a>
 </body>
