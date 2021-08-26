@@ -318,9 +318,7 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
             y = x * x * coeObj.a + coeObj.b*x + coeObj.c; 
             result_values_x.push (x); 
             result_values_y.push (y); 
-    } 
-
-    
+    }   
     return [result_values_x, result_values_y]; 
   
 };
@@ -344,6 +342,7 @@ function roof(roofdata){
 }
 
 
+//SIN 피팅 과정 : r은 반복회수(얼마나 매끄럽게 할지)
  function findLineByLeastSquares_sin(values_x,values_y,period,phase_x,r){
 
     var frequency=1/period;//주파수
@@ -381,7 +380,7 @@ function roof(roofdata){
     return [result_values_x, result_values_y]; 
 }
 
-//cos fitting
+//cos fitting-> 우선 주석처리 해놓음
 // function findLineByLeastSquares_cos(values_x,values_y){
     
 //     var frequency=1/period;//주파수
@@ -414,6 +413,7 @@ function roof(roofdata){
 //      return [result_values_x, result_values_y]; 
 // }
 
+//각 type에 맞게 피팅하기
 function fitting(){
        
         var max_value,min_value;
@@ -495,16 +495,18 @@ function fitting(){
         else if(type==0){
         alert('옵션을 선택해 주세요'); //옵션선택 안함 -> 경고창
        }
+       //피팅 그래프 나오게!
         getGraph(arrObj.xDatafitdata, arrObj.yDatafitdata, fitdata_xy[0], fitdata_xy[1], type); 
         arrphase=[];
         arrperiod=[];      
 }
 
+//초기화 
 function reset(){
     window.location.reload();
 }
 
-
+//sin 피팅 관련 함수들 
 function determinant(a, n) {
     var b, d, i, j, m, s, x, y;
   
