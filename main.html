@@ -70,6 +70,29 @@
     </a>
 
 
+ 
+    <a>
+        <form id="number" action="action.jsp"class="btn btn-white display-8"style = "width:22%;" >
+            <div style = "width:100%;">주기 : 
+                <input type="text" id="cycle_view" style="width:70%"></font>
+               
+
+        </div>
+        </form>
+        
+        <form id="number" action="action.jsp"class="btn btn-white display-8"  style = "width:22%;">
+            
+            <div style = "width:100%;">파형시작 : 
+        
+                <input type="text" id="phase_x_view" style="width:70%"></font>
+             
+               
+            </div>
+        </form>
+
+    </a>    
+    <div id="myGraph" style="  cursor: crosshair;  width: 100%; height:100%;" ></div>
+
     <a class="btn btn-white display-6">
         <div id="result" >
             <span id="fitting_result">fitting 함수</span>
@@ -83,26 +106,11 @@
             <span id="fitting_value">best period</span>
         </div>
     </a>
-    <div>
-        <form id="number" action="action.jsp"class="btn btn-white display-8"style = "width:20%;" >
-            <div style = "width:100%;">주기 : 
-                <input type="text" id="cycle_view"></font>
-               
-
-            </div>
-        </form>
+    <a class="btn btn-white display-6">
         
-        <form id="number" action="action.jsp"class="btn btn-white display-8"  style = "width:20%;">
-            
-            <div style = "width:100%;">파형시작점 : 
-        
-                <input type="text" id="phase_x_view"></font>
-             
-               
-            </div>
-        </form>
-        <button  onclick="change()">클릭</button>  
-    </div>    
-    <div id="myGraph" style="  cursor: crosshair;  width: 100%; height: 100%;" ></div>
+        <div id="result" >
+ <span id="r_value">r</span>
+        </div>
+    </a>
 </body>
 </html>

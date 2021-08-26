@@ -1,8 +1,8 @@
 const input = document.querySelector('#file');
 
 
-input.addEventListener('change', readExcel);
-input.addEventListener('click', reset_rows);
+input.addEventListener('change', readExcel);//파일이 바뀌면
+input.addEventListener('click', reset_rows);//파일이 클릭되면
 
 function reset_rows(){
     arrObj.rows=[];
