@@ -1,4 +1,4 @@
-var coeObj={
+var coeObj={ //계수 변수들
     a:0,
     b:0,
     c:0,
@@ -9,8 +9,8 @@ var coeObj={
     d10:0
 };
 
-var arrphase=[];
-var arrperiod=[];
+var arrphase=[]; //파형시작점 배열
+var arrperiod=[]; // 주기배열
 
 var arrObj={
     rows:0,//엑셀 파일의 내용을 json으로 바꾼 것
@@ -61,10 +61,10 @@ function action_button(){
     arrObj.xData=[];
     
     getdata();
-    getGraph_select_range(arrObj.xData, arrObj.yData);
+    getGraph_select_range(arrObj.xData, arrObj.yData); // 범위 선택 가능한 그래프 그리기 함수 호출
 }
    
-//좌표이름 바꾸는 곳
+//rows데이터를 x,y로 나눠 넣기
 function getdata(){
   
     const column = Object.keys(arrObj.rows[0]);
@@ -98,7 +98,7 @@ function getGraph_select_range(data_x, data_y){
   var config={
       displayModeBar: true,
       responsive: false,
-      modeBarButtonsToRemove: ['lasso2d','autoScale2d','toggleSpikelines'], //plotly 기본 버튼 중 제거할 것 (선택하기)
+      modeBarButtonsToRemove: ['lasso2d','autoScale2d','toggleSpikelines'], //plotly 기본 모드 바 중 제거할 것 선택하기
       displaylogo:false
   };
   
@@ -141,10 +141,7 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , type){
     }; 
 
 
-      var data = [original, fit];
-  
-    
-    
+    var data = [original, fit];
 
     var layout = {
         autosize:true,
@@ -164,33 +161,30 @@ function getGraph(data_x, data_y, fitdata_x, fitdata_y , type){
     };
     Plotly.newPlot(Graph, data, layout,config);
 
-    coeObj.a10=coeObj.a.toFixed(4);//10자리수까지 반올림
+    coeObj.a10=coeObj.a.toFixed(4);//4자리수까지 반올림
     coeObj.b10=coeObj.b.toFixed(4); 
-    coeObj.c10=coeObj.c.toFixed(4);//10자리수까지 반올림
+    coeObj.c10=coeObj.c.toFixed(4);//4자리수까지 반올림
     coeObj.d10=coeObj.d.toFixed(4); 
 
     if (type==1){
         document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"x + (" +coeObj.b10+")"
-        //Plotly.relayout(where, 'title',`y = ${a10}x + ${b10}`);
     }else if (type==2){
         document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"x² + (" +coeObj.b10+")x + (" + coeObj.c10+")"
-        //Plotly.relayout(where, 'title',`y = ${a10}x² + ${b10}x + ${c10}`);
     }else if(type==3){
         if(coeObj.c10==0){
           document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"sin("+ coeObj.b10 +"x) + (" +coeObj.d10+")"
-    
         } else{
           document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"sin("+ coeObj.b10 +"x + "+ coeObj.c10 + ")+ (" +coeObj.d10+")"
-        //y = coeObj.d*(Math.sin((2*Math.PI*(1/coeObj.b)* x) +coeObj.c))+coeObj.a;
        }
-    }else if(type==4){
-      if(coeObj.c10==0){
-        document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"cos("+ coeObj.b10 +"x) + (" +coeObj.d10+")"
-      } else{
-        document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"cos("+ coeObj.b10 +"x + "+ coeObj.c10 + ")+ (" +coeObj.d10+")"
-        //Plotly.relayout(where, 'title',`y = ${a10} cos(x) + ${b10}`);
-        }
       }
+    // ** cos일 경우 주석 처리함 **
+    // else if(type==4){
+    //   if(coeObj.c10==0){
+    //     document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"cos("+ coeObj.b10 +"x) + (" +coeObj.d10+")"
+    //   } else{
+    //     document.getElementById('fitting_result').innerHTML="f(X) = " + coeObj.a10 +"cos("+ coeObj.b10 +"x + "+ coeObj.c10 + ")+ (" +coeObj.d10+")"
+    //     }
+    //   }
 }
 
 
@@ -301,7 +295,7 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
     if (values_x.length === 0) { 
         return [[], []]; 
     } 
-    //console.log("전 x:", values_x);
+
 
    
     var result_values_x = [];
@@ -311,7 +305,7 @@ const findLineByLeastSquares_2=(values_x,values_y)=>{
       values_x =roof(values_x);
     }
 
-    //console.log("후 x:", values_x);
+ 
 
     for (let i = 0; i <values_x.length; i ++) { 
             x = values_x[i]; 
@@ -344,7 +338,6 @@ function roof(roofdata){
 
 //SIN 피팅 과정 : r은 반복회수(얼마나 매끄럽게 할지)
  function findLineByLeastSquares_sin(values_x,values_y,period,phase_x,r){
-
     var frequency=1/period;//주파수
     var pifre = Math.PI * 2 * frequency;// 2파이/주기
     
@@ -380,7 +373,7 @@ function roof(roofdata){
     return [result_values_x, result_values_y]; 
 }
 
-//cos fitting-> 우선 주석처리 해놓음
+//** cos fitting-> 우선 주석 **
 // function findLineByLeastSquares_cos(values_x,values_y){
     
 //     var frequency=1/period;//주파수
@@ -484,7 +477,6 @@ function fitting(){
             
           }
           fitdata_xy = findLineByLeastSquares_sin(arrObj.xDatafitdata, arrObj.yDatafitdata,arrperiod[pe_index], arrphase[0],roof_type);
-          //console.log("best 주기, 시작 : ",arrperiod[pe_index], arrphase[pa_index] );
           document.getElementById('fitting_value').innerHTML="주기 : " + arrperiod[pe_index]
           document.getElementById('r_value').innerHTML="r : " + near
         }
